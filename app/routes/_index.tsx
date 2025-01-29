@@ -81,19 +81,19 @@ const latestProjects = [
   {
     title: "AI-Powered Traffic Management",
     description: "Developing intelligent systems for optimizing urban traffic flow",
-    status: "Ongoing",
+    status: "Ongoing" as const,
     progress: 75,
   },
   {
     title: "Smart Campus Initiative",
     description: "Creating an IoT-based infrastructure for campus automation",
-    status: "Completed",
+    status: "Completed" as const,
     progress: 100,
   },
   {
     title: "Blockchain for Education",
     description: "Implementing secure credential verification system",
-    status: "Planning",
+    status: "Planning" as const,
     progress: 25,
   }
 ];

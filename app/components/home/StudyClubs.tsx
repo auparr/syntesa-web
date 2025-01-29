@@ -4,15 +4,6 @@ interface StudyClub {
     icon: JSX.Element;
 }
 
-interface ClubDetails {
-    [key: string]: string[];
-}
-
-interface ClubSchedule {
-    [key: string]: string;
-}
-
-
 export default function StudyClubs(props: { studyClubs: StudyClub[], getClubDetails: (club: string) => string[], getClubSchedule: (club: string) => string }) {
     return (
         <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/50 dark:to-black pb-24 pt-16">
