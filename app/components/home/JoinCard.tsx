@@ -43,7 +43,7 @@ export default function JoinCard() {
     return (
         <section
             aria-labelledby="join-heading"
-            className="relative overflow-hidden"
+            className="relative overflow-hidden px-4 sm:px-6"
         >
             {/* Background Pattern */}
             <div
@@ -52,24 +52,24 @@ export default function JoinCard() {
                     from-apple-blue-500/[0.03] via-transparent to-transparent"
             />
 
-            <div className="max-w-6xl mx-auto px-6 sm:py-32 sm:pb-48 py-24">
+            <div className="max-w-6xl mx-auto py-16 sm:py-24 lg:py-32">
                 <div className="relative">
                     {/* Decorative Elements */}
                     <div
                         aria-hidden="true"
-                        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px]
+                        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[200%] sm:w-[800px] aspect-square
                             bg-gradient-to-r from-apple-blue-500/10 to-purple-500/10
                             dark:from-apple-blue-500/5 dark:to-purple-500/5
                             rounded-full blur-3xl opacity-30 -z-10"
                     />
 
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
                         {/* Left Column - Journey Story */}
-                        <div className="space-y-8">
-                            <header>
+                        <div className="space-y-6 sm:space-y-8">
+                            <header className="text-center lg:text-left">
                                 <h2
                                     id="join-heading"
-                                    className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight"
+                                    className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight"
                                 >
                                     Begin Your Journey in
                                     <br />
@@ -77,14 +77,14 @@ export default function JoinCard() {
                                         Software Innovation
                                     </span>
                                 </h2>
-                                <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                                <p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto lg:mx-0">
                                     Join a community of passionate developers, researchers, and innovators.
                                     Our lab offers state-of-the-art facilities and mentorship from industry experts.
                                 </p>
                             </header>
 
                             {/* Benefits Grid */}
-                            <ul className="grid grid-cols-2 gap-6" role="list">
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6" role="list">
                                 {benefits.map((benefit) => (
                                     <li key={benefit.title} className="group">
                                         <article className="flex items-start space-x-4 p-4 rounded-xl
@@ -93,13 +93,13 @@ export default function JoinCard() {
                                             <div className="flex-shrink-0">
                                                 <div
                                                     aria-hidden="true"
-                                                    className="w-10 h-10 rounded-lg bg-apple-blue-500/10 dark:bg-apple-blue-400/10
+                                                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-apple-blue-500/10 dark:bg-apple-blue-400/10
                                                         flex items-center justify-center
                                                         group-hover:bg-apple-blue-500/20 dark:group-hover:bg-apple-blue-400/20
                                                         transition-colors duration-300"
                                                 >
                                                     <svg
-                                                        className="w-5 h-5 text-apple-blue-600 dark:text-apple-blue-400"
+                                                        className="w-4 h-4 sm:w-5 sm:h-5 text-apple-blue-600 dark:text-apple-blue-400"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
                                                         stroke="currentColor"
@@ -110,7 +110,7 @@ export default function JoinCard() {
                                                 </div>
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-900 dark:text-white">
+                                                <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
                                                     {benefit.title}
                                                 </h3>
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -124,30 +124,30 @@ export default function JoinCard() {
                         </div>
 
                         {/* Right Column - Application Card */}
-                        <aside className="relative">
+                        <aside className="relative mt-8 lg:mt-0">
                             <div
                                 aria-hidden="true"
                                 className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-600
                                     dark:from-gray-400 dark:to-gray-600 rounded-2xl blur opacity-10"
                             />
-                            <div className="relative bg-white dark:bg-gray-800/30 rounded-2xl p-8 md:p-12
+                            <div className="relative bg-white dark:bg-gray-800/30 rounded-2xl p-6 sm:p-8 lg:p-12
                                 border border-gray-200/50 dark:border-gray-700/30">
-                                <div className="space-y-8">
+                                <div className="space-y-6 sm:space-y-8">
                                     <header>
-                                        <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                                        <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
                                             Ready to Join?
                                         </h3>
-                                        <p className="mt-4 text-gray-600 dark:text-gray-300">
+                                        <p className="mt-4 text-sm sm:text-base text-gray-600 dark:text-gray-300">
                                             Applications for Summer 2025 are now open. Submit your application today and
                                             take the first step towards your future in software engineering.
                                         </p>
                                     </header>
 
-                                    <nav className="space-y-4">
+                                    <nav className="space-y-3 sm:space-y-4">
                                         <a
                                             href="/apply"
-                                            className="block w-full px-8 py-4 rounded-xl bg-gray-900 dark:bg-white
-                                                text-white dark:text-gray-900 font-medium text-center
+                                            className="block w-full px-6 sm:px-8 py-3 sm:py-4 rounded-xl bg-gray-900 dark:bg-white
+                                                text-white dark:text-gray-900 font-medium text-center text-sm sm:text-base
                                                 hover:bg-gray-800 dark:hover:bg-gray-100
                                                 transform hover:scale-[1.02] transition-all duration-300
                                                 shadow-lg shadow-gray-900/10"
@@ -156,7 +156,7 @@ export default function JoinCard() {
                                         </a>
                                         <a
                                             href="/information-pack"
-                                            className="block w-full px-8 py-4 rounded-xl text-center
+                                            className="block w-full px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-center text-sm sm:text-base
                                                 bg-gray-50 dark:bg-gray-700/50
                                                 text-gray-900 dark:text-white font-medium
                                                 hover:bg-gray-100 dark:hover:bg-gray-700

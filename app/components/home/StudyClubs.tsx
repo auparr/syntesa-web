@@ -17,8 +17,38 @@ interface StudyClubsProps {
 
 export default function StudyClubs(props: StudyClubsProps) {
     return (
-        <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/50 dark:to-black pb-24 pt-16">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="relative bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/50 dark:to-black pb-24 pt-16 overflow-hidden">
+            {/* Abstract Background */}
+            <div className="absolute inset-0" aria-hidden="true">
+                {/* SVG Pattern Background */}
+                <svg className="absolute w-full h-full opacity-[0.03] dark:opacity-[0.05]"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <circle cx="1" cy="1" r="1" fill="currentColor" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+                </svg>
+
+                {/* Animated Blobs */}
+                <div className="absolute top-0 left-0 right-0 bottom-0">
+                    <div
+                        className="absolute top-1/4 -left-10 w-72 h-72 bg-purple-200 dark:bg-purple-900/30
+                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
+                    </div>
+                    <div
+                        className="absolute top-1/3 -right-10 w-72 h-72 bg-yellow-200 dark:bg-yellow-900/30
+                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
+                    </div>
+                    <div
+                        className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-200 dark:bg-pink-900/30
+                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000">
+                    </div>
+                </div>
+            </div>
+
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="text-center mb-12 sm:mb-16">
                     <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         Study Clubs

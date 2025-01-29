@@ -40,6 +40,7 @@ export default {
         'wave': 'wave 15s ease-in-out infinite',
         'floating': 'floating 6s ease-in-out infinite',
         'scale-wave': 'scaleWave 10s ease-in-out infinite',
+        'blob': "blob 7s infinite",
       },
       keyframes: {
         fadeInUp: {
@@ -158,6 +159,20 @@ export default {
             transform: 'scale(1.2) rotate(15deg)'
           },
         },
+        blob: {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1)",
+          },
+          "33%": {
+            transform: "translate(30px, -50px) scale(1.1)",
+          },
+          "66%": {
+            transform: "translate(-20px, 20px) scale(0.9)",
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1)",
+          },
+        },
       },
       // Optional: Add custom colors if needed
       colors: {
@@ -179,6 +194,11 @@ export default {
         '18': '4.5rem',
         '22': '5.5rem',
       },
+    },
+    variants: {
+      extend: {
+        animation: ['responsive', 'motion-safe', 'motion-reduce']
+      }
     },
   },
   plugins: [
