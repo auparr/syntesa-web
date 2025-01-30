@@ -71,7 +71,7 @@ export default function JoinCard() {
             aria-labelledby="join-heading"
             className="relative overflow-hidden pb-16 sm:pb-24
                         bg-gradient-to-b from-white via-gray-50 to-white
-                        dark:from-black dark:via-gray-900 dark:to-black"
+                        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900"
         >
             {/* Background Pattern */}
             <div
@@ -187,39 +187,63 @@ export default function JoinCard() {
                                     {/* FAQs Panel */}
                                     <div
                                         className={`w-full flex-shrink-0 transition-all duration-300 transform
-                                            ${activeTab === 'faqs' ? 'translate-x-[-100%]' : 'translate-x-0'}`}
+        ${activeTab === 'faqs' ? 'translate-x-[-100%]' : 'translate-x-0'}`}
                                     >
                                         <div className="space-y-4">
                                             {faqs.map((faq) => (
                                                 <div
                                                     key={faq.question}
-                                                    className="border border-gray-200/50 dark:border-gray-700/30 rounded-lg overflow-hidden"
+                                                    className="group relative"
                                                 >
-                                                    <button
-                                                        onClick={() => setExpandedFaq(
-                                                            expandedFaq === faq.question ? null : faq.question
-                                                        )}
-                                                        className="w-full px-4 py-3 text-left flex justify-between items-center
-                                                        hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-300"
-                                                    >
-                                                        <span className="font-medium">{faq.question}</span>
-                                                        <svg
-                                                            className={`w-5 h-5 transition-transform duration-300
-                                                            ${expandedFaq === faq.question ? 'rotate-180' : ''}`}
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor"
-                                                        >
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                        </svg>
-                                                    </button>
+                                                    {/* Add hover gradient effect */}
                                                     <div
-                                                        className={`transition-all duration-300 overflow-hidden
-                                                        ${expandedFaq === faq.question ? 'max-h-40' : 'max-h-0'}`}
-                                                    >
-                                                        <p className="px-4 pb-3 text-gray-600 dark:text-gray-400">
-                                                            {faq.answer}
-                                                        </p>
+                                                        className="absolute -inset-0.5 bg-gradient-to-r from-gray-900 to-gray-600
+                        dark:from-white dark:to-gray-300 rounded-lg blur-[2px]
+                        opacity-0 group-hover:opacity-5 transition duration-500"
+                                                    />
+
+                                                    <div className="relative bg-white/50 dark:bg-gray-800/30
+                    border border-gray-200/50 dark:border-gray-700/30
+                    rounded-lg overflow-hidden backdrop-blur-sm">
+                                                        <button
+                                                            onClick={() => setExpandedFaq(
+                                                                expandedFaq === faq.question ? null : faq.question
+                                                            )}
+                                                            className="w-full px-4 py-3 text-left flex justify-between items-center
+                            text-gray-900 dark:text-white
+                            hover:bg-gray-50/50 dark:hover:bg-gray-800/50
+                            transition-colors duration-300"
+                                                        >
+                                                            <span className="font-medium">{faq.question}</span>
+                                                            <svg
+                                                                className={`w-5 h-5 text-gray-500 dark:text-gray-400
+                                transition-transform duration-300
+                                ${expandedFaq === faq.question ? 'rotate-180' : ''}`}
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                                stroke="currentColor"
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth={2}
+                                                                    d="M19 9l-7 7-7-7"
+                                                                />
+                                                            </svg>
+                                                        </button>
+                                                        <div
+                                                            className={`transition-all duration-300 overflow-hidden
+                            bg-gradient-to-b from-transparent to-gray-50/50
+                            dark:to-gray-800/50
+                            ${expandedFaq === faq.question
+                                                                    ? 'max-h-40 opacity-100'
+                                                                    : 'max-h-0 opacity-0'}`}
+                                                        >
+                                                            <p className="px-4 pb-3 text-gray-600 dark:text-gray-400
+                            prose prose-sm dark:prose-invert">
+                                                                {faq.answer}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}

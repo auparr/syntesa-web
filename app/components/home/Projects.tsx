@@ -31,18 +31,36 @@ const STATUS_STYLES: Record<ProjectStatus, string> = {
     'Ongoing': 'bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-400'
 } as const;
 
-const getStatusIcon = (status: ProjectStatus): React.ComponentType => {
-    return STATUS_ICONS[status];
-};
-
 export default function Projects(props: ProjectsProps) {
     return (
         <section
             aria-labelledby="projects-heading"
             className="bg-gradient-to-b from-white via-gray-50 to-white
-                     dark:from-black dark:via-gray-900 dark:to-black py-16 sm:py-24"
+                        dark:from-slate-950 dark:via-slate-900 dark:to-slate-950
+                     py-16 sm:py-24 border-t border-gray-200/10 dark:border-slate-800/50
+                     relative overflow-hidden"
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            {/* Background decorative elements */}
+            <div className="absolute inset-0">
+                {/* Grid pattern */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(77,145,255,0.02)_0.5px,transparent_0.5px),linear-gradient(to_right,rgba(77,145,255,0.02)_0.5px,transparent_0.5px)]
+                    dark:bg-[linear-gradient(rgba(77,145,255,0.01)_0.5px,transparent_0.5px),linear-gradient(to_right,rgba(77,145,255,0.01)_0.5px,transparent_0.5px)]
+                    bg-[size:32px_32px] opacity-75" />
+
+                {/* Animated blobs */}
+                <div className="absolute inset-0">
+                    <div className="absolute top-1/4 left-1/4 w-64 h-64
+                        bg-apple-blue-500/[0.03] dark:bg-apple-blue-400/[0.03]
+                        rounded-full blur-3xl animate-pulse-slow"
+                        style={{ animationDuration: '10s' }} />
+                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96
+                        bg-apple-blue-600/[0.02] dark:bg-apple-blue-500/[0.02]
+                        rounded-full blur-3xl animate-pulse-slow"
+                        style={{ animationDuration: '15s', animationDelay: '-5s' }} />
+                </div>
+            </div>
+
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
                 <header className="text-center mb-12 sm:mb-16">
                     <h2
                         id="projects-heading"
@@ -64,23 +82,25 @@ export default function Projects(props: ProjectsProps) {
                             {/* Decorative gradient overlay */}
                             <div
                                 aria-hidden="true"
-                                className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-600
-                                    dark:from-gray-400 dark:to-gray-600 rounded-xl sm:rounded-2xl opacity-0
-                                    group-hover:opacity-10 transition-opacity duration-500"
+                                className="absolute -inset-0.5 bg-gradient-to-r from-gray-900 to-gray-600
+                                    dark:from-white dark:to-gray-300 rounded-xl sm:rounded-2xl blur-[2px]
+                                    opacity-5 group-hover:opacity-10 transition-all duration-500"
                             />
 
-                            <article className="bg-white dark:bg-gray-800/30 rounded-xl sm:rounded-2xl p-6 sm:p-8
+                            <article className="bg-white/50 dark:bg-gray-800/30 rounded-xl sm:rounded-2xl p-6 sm:p-8
                                 border border-gray-200/50 dark:border-gray-700/30
                                 transform transition-all duration-500
-                                hover:translate-y-[-4px]">
+                                hover:translate-y-[-4px] backdrop-blur-sm
+                                relative">
                                 <div className="mb-6">
                                     {/* Status Icon */}
                                     <div
                                         aria-hidden="true"
                                         className="w-10 h-10 sm:w-12 sm:h-12 mb-4 rounded-xl bg-gradient-to-br
-        from-gray-900 to-gray-700 dark:from-white dark:to-gray-300
-        flex items-center justify-center transform
-        group-hover:rotate-6 transition-transform duration-300"
+                                            from-gray-900 to-gray-600 dark:from-white dark:to-gray-300
+                                            flex items-center justify-center transform
+                                            group-hover:rotate-6 transition-transform duration-300
+                                            shadow-lg"
                                     >
                                         {(() => {
                                             const StatusIcon = STATUS_ICONS[project.status];
@@ -111,7 +131,7 @@ export default function Projects(props: ProjectsProps) {
                                         aria-valuenow={project.progress}
                                         aria-valuemin={0}
                                         aria-valuemax={100}
-                                        className="relative w-full h-1.5 sm:h-2 bg-gray-200 dark:bg-gray-700
+                                        className="relative w-full h-1.5 sm:h-2 bg-gray-200/50 dark:bg-gray-700/50
                                             rounded-full overflow-hidden"
                                     >
                                         <div
@@ -129,7 +149,7 @@ export default function Projects(props: ProjectsProps) {
                                         <span
                                             role="status"
                                             className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium
-                                            ${STATUS_STYLES[project.status]}`}
+                                                ${STATUS_STYLES[project.status]}`}
                                         >
                                             {project.status}
                                         </span>

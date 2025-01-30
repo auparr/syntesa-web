@@ -1,4 +1,3 @@
-import { type ComponentType, SVGProps } from 'react';
 import { BsCheck } from 'react-icons/bs';
 import { type IconType } from 'react-icons';
 
@@ -22,11 +21,12 @@ interface StudyClubsProps {
 export default function StudyClubs(props: StudyClubsProps) {
     return (
         <div className="relative bg-gradient-to-b from-white via-gray-50 to-white
-                        dark:from-black dark:via-gray-900 dark:to-black pb-24 pt-16 overflow-hidden">
+                        dark:from-slate-950 dark:via-slate-900 dark:to-slate-950
+                        pb-24 pt-16 overflow-hidden border-t border-gray-200/10 dark:border-slate-800/50">
             {/* Abstract Background */}
             <div className="absolute inset-0" aria-hidden="true">
                 {/* SVG Pattern Background */}
-                <svg className="absolute w-full h-full opacity-[0.03] dark:opacity-[0.05]"
+                <svg className="absolute w-full h-full opacity-[0.02] dark:opacity-[0.03]"
                     xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <pattern id="grid-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -39,16 +39,19 @@ export default function StudyClubs(props: StudyClubsProps) {
                 {/* Animated Blobs */}
                 <div className="absolute top-0 left-0 right-0 bottom-0">
                     <div
-                        className="absolute top-1/4 -left-10 w-72 h-72 bg-purple-200 dark:bg-purple-900/30
-                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
+                        className="absolute top-1/4 -left-10 w-72 h-72
+                            bg-apple-blue-500/[0.03] dark:bg-apple-blue-400/[0.03]
+                            rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
                     </div>
                     <div
-                        className="absolute top-1/3 -right-10 w-72 h-72 bg-yellow-200 dark:bg-yellow-900/30
-                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
+                        className="absolute top-1/3 -right-10 w-72 h-72
+                            bg-apple-blue-600/[0.02] dark:bg-apple-blue-500/[0.02]
+                            rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
                     </div>
                     <div
-                        className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-200 dark:bg-pink-900/30
-                                 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000">
+                        className="absolute -bottom-8 left-1/2 w-72 h-72
+                            bg-apple-blue-400/[0.03] dark:bg-apple-blue-300/[0.03]
+                            rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000">
                     </div>
                 </div>
             </div>
@@ -69,20 +72,21 @@ export default function StudyClubs(props: StudyClubsProps) {
                             key={club.name}
                             className="relative group mx-0"
                         >
-                            <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-400 dark:to-gray-600
-                                rounded-xl blur-[2px] opacity-10 group-hover:opacity-20 transition duration-500">
+                            <div className="absolute -inset-0.5 bg-gradient-to-r
+                                from-gray-900 to-gray-600 dark:from-white dark:to-gray-300
+                                rounded-xl blur-[2px] opacity-5 group-hover:opacity-10 transition duration-500">
                             </div>
 
                             <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-6
-                                bg-white dark:bg-gray-800/30 p-5 sm:p-6 rounded-xl
+                                bg-white/50 dark:bg-gray-800/30 p-5 sm:p-6 rounded-xl
                                 border border-gray-200/50 dark:border-gray-700/30
                                 hover:border-apple-blue-500/50
                                 transition-all duration-300
-                                transform">
+                                transform backdrop-blur-sm">
 
                                 <div className="flex-shrink-0">
                                     <div className="w-12 h-12 sm:w-14 sm:h-14
-                                        bg-gradient-to-br from-gray-900 to-gray-700
+                                        bg-gradient-to-br from-gray-900 to-gray-600
                                         dark:from-white dark:to-gray-300
                                         rounded-lg sm:rounded-xl
                                         flex items-center justify-center
@@ -114,7 +118,7 @@ export default function StudyClubs(props: StudyClubsProps) {
                                                 justify-center sm:justify-start"
                                             >
                                                 <BsCheck
-                                                    className="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0"
+                                                    className="w-4 h-4 mr-1.5 text-gray-400 dark:text-gray-500 flex-shrink-0"
                                                 />
                                                 <span>{detail}</span>
                                             </div>
@@ -125,10 +129,11 @@ export default function StudyClubs(props: StudyClubsProps) {
                                         <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 order-2 sm:order-1">
                                             {props.getClubSchedule(club.name)}
                                         </span>
-                                        <button className="w-full sm:w-auto px-3 py-1.5 text-sm font-medium text-gray-900 dark:text-white
-                                            bg-gray-100 dark:bg-gray-700/50 rounded-full
+                                        <button className="w-full sm:w-auto px-3 py-1.5 text-sm font-medium
+                                            text-gray-900 dark:text-white
+                                            bg-gray-100/80 dark:bg-gray-700/50 rounded-full
                                             hover:bg-gray-200 dark:hover:bg-gray-700
-                                            transition duration-300 order-1 sm:order-2">
+                                            transition duration-300 order-1 sm:order-2 backdrop-blur-sm">
                                             Learn More →
                                         </button>
                                     </div>

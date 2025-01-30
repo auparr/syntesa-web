@@ -17,14 +17,15 @@ export default function Partners(props: PartnersProps) {
     return (
         <section
             aria-labelledby="partners-heading"
-            className="relative py-12 sm:py-16 border-t border-gray-200/10 dark:border-gray-700/10
-                        bg-gradient-to-b from-white via-gray-50 to-white dark:from-black dark:via-gray-900 dark:to-black overflow-hidden"
+            className="relative py-12 sm:py-16 border-t border-gray-200/10 dark:border-gray-800/50
+                        bg-gradient-to-b from-white via-gray-50 to-white
+                        dark:from-black dark:via-gray-900 dark:to-black overflow-hidden"
         >
             {/* Decorative gradient overlay */}
             <div
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20
-                    dark:from-black/80 dark:via-transparent dark:to-black/80 z-10 pointer-events-none"
+                    dark:from-black/50 dark:via-transparent dark:to-black/50 z-10 pointer-events-none"
             />
 
             <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -49,15 +50,18 @@ export default function Partners(props: PartnersProps) {
                                 key={`${partner.name}-${index}`}
                                 className="flex-shrink-0 group relative"
                             >
-                                <article className="relative w-32 sm:w-48 h-16 sm:h-24 bg-white dark:bg-gray-800/30
-                                rounded-xl border border-gray-200/50 dark:border-gray-700/30
-                                flex items-center justify-center p-4 sm:p-6
-                                transition-all duration-500
-                                hover:shadow-lg hover:scale-105
-                                group-hover:border-apple-blue-500/50">
-                                    <partner.icon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400 dark:text-gray-500
-                                    group-hover:text-gray-900 dark:group-hover:text-white
-                                    transition-colors duration-300" />
+                                <article className="relative w-32 sm:w-48 h-16 sm:h-24
+                                    bg-white/50 dark:bg-gray-800/30
+                                    rounded-xl border border-gray-200/50 dark:border-gray-700/30
+                                    flex items-center justify-center p-4 sm:p-6
+                                    transition-all duration-500
+                                    hover:shadow-lg hover:scale-105
+                                    group-hover:border-apple-blue-500/50
+                                    backdrop-blur-sm">
+                                    <partner.icon className="w-8 h-8 sm:w-10 sm:h-10
+                                        text-gray-400 dark:text-gray-500
+                                        group-hover:text-gray-900 dark:group-hover:text-white
+                                        transition-colors duration-300" />
 
                                     {/* Tooltip */}
                                     <div
@@ -67,9 +71,10 @@ export default function Partners(props: PartnersProps) {
                                             transition-all duration-200 z-20
                                             pointer-events-none hidden sm:block"
                                     >
-                                        <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                                        <div className="bg-gray-900 dark:bg-white
+                                            text-white dark:text-gray-900
                                             text-sm font-medium px-4 py-2 rounded-xl
-                                            shadow-lg">
+                                            shadow-lg backdrop-blur-sm">
                                             <strong className="block font-semibold mb-1">
                                                 {partner.name}
                                             </strong>
@@ -90,14 +95,17 @@ export default function Partners(props: PartnersProps) {
                                 key={`${partner.name}-${index}-row2`}
                                 className="flex-shrink-0 group relative"
                             >
-                                <article className="relative w-32 sm:w-48 h-16 sm:h-24 bg-white dark:bg-gray-800/30 rounded-xl
-                                border border-gray-200/50 dark:border-gray-700/30
-                                flex items-center justify-center p-4 sm:p-6
-                                transition-all duration-300
-                                hover:shadow-lg hover:scale-105">
-                                    <partner.icon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400 dark:text-gray-500
-                                    group-hover:text-gray-900 dark:group-hover:text-white
-                                    transition-colors duration-300" />
+                                <article className="relative w-32 sm:w-48 h-16 sm:h-24
+                                    bg-white/50 dark:bg-gray-800/30
+                                    rounded-xl border border-gray-200/50 dark:border-gray-700/30
+                                    flex items-center justify-center p-4 sm:p-6
+                                    transition-all duration-300
+                                    hover:shadow-lg hover:scale-105
+                                    backdrop-blur-sm">
+                                    <partner.icon className="w-8 h-8 sm:w-10 sm:h-10
+                                        text-gray-400 dark:text-gray-500
+                                        group-hover:text-gray-900 dark:group-hover:text-white
+                                        transition-colors duration-300" />
 
                                     {/* Tooltip */}
                                     <div
@@ -107,9 +115,10 @@ export default function Partners(props: PartnersProps) {
                                             transition-all duration-200 z-20
                                             pointer-events-none hidden sm:block"
                                     >
-                                        <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                                        <div className="bg-gray-900 dark:bg-white
+                                            text-white dark:text-gray-900
                                             text-sm font-medium px-4 py-2 rounded-xl
-                                            shadow-lg">
+                                            shadow-lg backdrop-blur-sm">
                                             <strong className="block font-semibold mb-1">
                                                 {partner.name}
                                             </strong>
