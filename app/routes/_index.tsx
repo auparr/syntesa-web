@@ -23,6 +23,14 @@ import {
 import { FaMicrosoft, FaAws } from "react-icons/fa";
 
 
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Software Engineering Lab - Universitas Negeri Surabaya" },
+    { name: "description", content: "Advanced software engineering education and research facility" },
+  ];
+};
+
+
 const studyClubs: TypeStudyClub[] = [
   {
     name: "Web Development",
