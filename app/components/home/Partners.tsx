@@ -39,8 +39,8 @@ export default function Partners(props: PartnersProps) {
                     dark:from-black/20 dark:via-transparent dark:to-black/20 z-10 pointer-events-none"
             />
 
-            <div className="mx-auto px-4 sm:px-6">
-                <header className="text-center mb-8 sm:mb-12">
+            <div className="mx-auto">
+                <header className="text-center mb-8 sm:mb-12 px-6">
                     <h2
                         id="partners-heading"
                         className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2"
@@ -56,8 +56,8 @@ export default function Partners(props: PartnersProps) {
                 <div className="relative" role="region">
                     {/* Mask containers to hide overflow */}
                     <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-black z-20" />
-                        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-black z-20" />
+                        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-black/20 z-20" />
+                        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-black/20 z-20" />
                     </div>
 
                     {/* First Row */}
@@ -76,7 +76,7 @@ export default function Partners(props: PartnersProps) {
                     </div>
 
                     {/* Second Row */}
-                    <div className="overflow-hidden pt-8">
+                    <div className="overflow-hidden py-8">
                         <div className="relative flex w-[200%] animate-slide-right">
                             <ul className="flex items-center justify-around w-full space-x-4">
                                 {[...shuffledPartners, ...shuffledPartners].map((partner, index) => (
