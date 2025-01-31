@@ -25,7 +25,7 @@ import { FaMicrosoft, FaAws } from "react-icons/fa";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Software Engineering Lab - Universitas Negeri Surabaya" },
+    { title: "Software Development Lab - Universitas Negeri Surabaya" },
     { name: "description", content: "Advanced software engineering education and research facility" },
   ];
 };

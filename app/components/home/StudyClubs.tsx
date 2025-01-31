@@ -92,7 +92,6 @@ export default function StudyClubs(props: StudyClubsProps) {
                                         flex items-center justify-center
                                         shadow-lg transform
                                         group-hover:scale-110 group-hover:rotate-6
-                                        group-hover:animate-pulse-slow
                                         transition duration-500"
                                     >
                                         <club.icon

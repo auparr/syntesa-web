@@ -1,31 +1,27 @@
-import { Link, NavLink } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { FaDiscord, FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import { HiMail } from 'react-icons/hi';
-import { HiMenu, HiX } from 'react-icons/hi';
-import { IoLocationSharp } from 'react-icons/io5';
 import Footer from './Footer';
 import Navbar from "./Navbar";
 
 const socialLinks = [
     {
         name: 'Discord',
-        href: 'https://discord.gg/syntesa',
+        href: 'https://discord.gg/KeCh9tb8hv',
         icon: FaDiscord
     },
     {
         name: 'GitHub',
-        href: 'https://github.com/syntesa-unesa',
+        href: 'https://github.com/wearesyntesa',
         icon: FaGithub
     },
     {
         name: 'Instagram',
-        href: 'https://instagram.com/syntesa.unesa',
+        href: 'https://instagram.com/wearesyntesa',
         icon: FaInstagram
     },
     {
         name: 'LinkedIn',
-        href: 'https://linkedin.com/company/syntesa-unesa',
+        href: 'https://linkedin.com/',
         icon: FaLinkedin
     }
 ];
@@ -55,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="min-h-screen bg-[#FAFAFA] dark:bg-black">
             <Navbar socialLinks={socialLinks} />
             <main>{children}</main>
-            <Footer socialLinks={socialLinks} quickLinks={quickLinks} />
+            <Footer socialLinks={socialLinks} />
         </div>
     );
 }

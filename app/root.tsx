@@ -14,6 +14,7 @@ import type { LinksFunction } from "@remix-run/node";
 import AppLayout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import "./tailwind.css";
+import "./openstreetmap.css"
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

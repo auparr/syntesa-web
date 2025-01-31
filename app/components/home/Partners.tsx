@@ -28,7 +28,7 @@ export default function Partners(props: PartnersProps) {
     return (
         <section
             aria-labelledby="partners-heading"
-            className="relative py-4 sm:py-14 border-t border-gray-200/10 dark:border-gray-800/50
+            className="relative py-8 sm:py-14 border-t border-gray-200/10 dark:border-gray-800/50
                         bg-gradient-to-b from-white via-gray-50 to-white
                         dark:from-black dark:via-gray-900 dark:to-black"
         >
