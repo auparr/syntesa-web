@@ -24,7 +24,9 @@ export default {
         'fade-in-left': 'fadeInLeft 0.5s ease-out forwards',
         'fade-in-right': 'fadeInRight 0.5s ease-out forwards',
         'slide-left': 'slideLeft 30s linear infinite',
+        'slide-left-mobile': 'slideLeftMobile 15s linear infinite',
         'slide-right': 'slideRight 30s linear infinite',
+        'slide-right-mobile': 'slideRightMobile 15s linear infinite',
         'bounce-slow': 'bounce 3s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'float': 'float 6s ease-in-out infinite',
@@ -77,7 +79,15 @@ export default {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' }
         },
-        'slideRight': {
+        slideRight: {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' }
+        },
+        slideLeftMobile: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        },
+        slideRightMobile: {
           '0%': { transform: 'translateX(-50%)' },
           '100%': { transform: 'translateX(0)' }
         },

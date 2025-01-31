@@ -1,5 +1,6 @@
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useEffect, useState, useRef } from 'react';
 import { type IconType } from 'react-icons';
+import debounce from '~/utils/Debounce';
 
 export type PartnerCategory = "Education" | "Infrastructure" | "Technology";
 
@@ -14,53 +15,78 @@ interface PartnersProps {
     readonly partners: readonly TypePartner[];
 }
 
-const shuffleArray = <T,>(array: readonly T[]): T[] => {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-};
-
 export default function Partners(props: PartnersProps) {
-    // Memoize the shuffled array
-    const shuffledPartners = useMemo(() =>
-        shuffleArray(props.partners),
-        [props.partners]
-    );
+    const [isVisible, setIsVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const sectionRef = useRef<HTMLElement>(null);
 
-    // Memoize the duplicated arrays
-    const duplicatedPartners = useMemo(() =>
-        [...props.partners, ...props.partners],
-        [props.partners]
-    );
+    // Check for mobile device on mount
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
 
-    const duplicatedShuffled = useMemo(() =>
-        [...shuffledPartners, ...shuffledPartners],
-        [shuffledPartners]
-    );
+        checkMobile(); // Check immediately
+        const handleResize = debounce(checkMobile, 250); // Debounce resize events
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Improved Intersection Observer setup
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setIsVisible(true);
+                        observer.disconnect();
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '50px' // Start loading slightly before the element is in view
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    // Memoize partner arrays
+    const { displayPartners, displayShuffledPartners } = useMemo(() => {
+        if (!isVisible) {
+            return {
+                displayPartners: [] as readonly TypePartner[],
+                displayShuffledPartners: [] as readonly TypePartner[]
+            };
+        }
+
+        const shuffled = [...props.partners].sort(() => Math.random() - 0.5);
+        const duplicated = [...props.partners, ...props.partners];
+        const duplicatedShuffled = [...shuffled, ...shuffled];
+
+        return {
+            displayPartners: duplicated,
+            displayShuffledPartners: duplicatedShuffled
+        };
+    }, [props.partners, isVisible]);
 
     return (
         <section
+            ref={sectionRef}
             aria-labelledby="partners-heading"
             className="relative py-8 sm:py-14 border-t border-gray-200/10 dark:border-gray-800/50
-                        bg-gradient-to-b from-white via-gray-50 to-white
-                        dark:from-black dark:via-gray-900 dark:to-black"
+                      bg-gradient-to-b from-white via-gray-50 to-white
+                      dark:from-black dark:via-gray-900 dark:to-black"
         >
-            {/* Decorative gradient overlay */}
-            <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20
-                    dark:from-black/20 dark:via-transparent dark:to-black/20 z-10 pointer-events-none"
-            />
-
             <div className="mx-auto">
                 <header className="text-center mb-8 sm:mb-12 px-6">
-                    <h2
-                        id="partners-heading"
-                        className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2"
-                    >
+                    <h2 id="partners-heading" className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2">
                         Empowering Innovation Through Partnership
                     </h2>
                     <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
@@ -68,48 +94,53 @@ export default function Partners(props: PartnersProps) {
                     </p>
                 </header>
 
-                {/* Partners Marquee */}
-                <div className="relative" role="region">
-                    {/* Mask containers to hide overflow */}
-                    <div className="absolute inset-0 pointer-events-none">
-                        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-black/20 z-20" />
-                        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-black/20 z-20" />
-                    </div>
-
-                    {/* First Row */}
-                    <div className="overflow-hidden">
-                        <div className="relative flex w-[200%] animate-slide-left">
-                            <ul className="flex items-center justify-around w-full space-x-4">
-                                {duplicatedPartners.map((partner, index) => (
-                                    <MarqueeItem
-                                        key={`${partner.name}-${index}-row1`}
-                                        partner={partner}
-                                        tooltipPosition="top"
-                                    />
-                                ))}
-                            </ul>
+                {isVisible && (
+                    <div className="relative" role="region">
+                        {/* Gradient masks */}
+                        <div className="absolute inset-0 pointer-events-none">
+                            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent dark:from-black/20 z-20" />
+                            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent dark:from-black/20 z-20" />
                         </div>
-                    </div>
 
-                    {/* Second Row */}
-                    <div className="overflow-hidden py-8">
-                        <div className="relative flex w-[200%] animate-slide-right">
-                            <ul className="flex items-center justify-around w-full space-x-4">
-                                {duplicatedShuffled.map((partner, index) => (
-                                    <MarqueeItem
-                                        key={`${partner.name}-${index}-row2`}
-                                        partner={partner}
-                                        tooltipPosition="bottom"
-                                    />
-                                ))}
-                            </ul>
-                        </div>
+                        {/* Partner rows */}
+                        <PartnerRow partners={displayPartners} direction="left" isMobile={isMobile} />
+                        <PartnerRow partners={displayShuffledPartners} direction="right" isMobile={isMobile} />
                     </div>
-                </div>
+                )}
             </div>
         </section>
     );
-}
+};
+
+const PartnerRow = memo(({ partners, direction, isMobile }: {
+    partners: readonly TypePartner[];
+    direction: 'left' | 'right';
+    isMobile: boolean;
+}) => {
+    const animationClass = useMemo(() => {
+        if (direction === 'left') {
+            return isMobile ? 'animate-slide-left-mobile' : 'animate-slide-left';
+        }
+        return isMobile ? 'animate-slide-right-mobile' : 'animate-slide-right';
+    }, [direction, isMobile]);
+
+    return (
+        <div className="overflow-hidden py-4">
+            <div className={`relative flex w-[200%] ${animationClass}`}>
+                <ul className="flex items-center justify-around w-full space-x-4">
+                    {partners.map((partner, index) => (
+                        <MarqueeItem
+                            key={`${partner.name}-${index}-${direction}`}
+                            partner={partner}
+                            tooltipPosition={direction === 'left' ? 'top' : 'bottom'}
+                        />
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+});
+PartnerRow.displayName = 'PartnerRow';
 
 const MarqueeItem = memo(({ partner, tooltipPosition }: {
     partner: TypePartner,

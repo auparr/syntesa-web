@@ -10,3 +10,12 @@ body {
     color-scheme: dark;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-slide-left,
+    .animate-slide-right,
+    .animate-slide-left-mobile,
+    .animate-slide-right-mobile {
+        animation: none;
+    }
+}
