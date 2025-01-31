@@ -118,9 +118,12 @@ export default function JoinCard() {
                                 {['benefits', 'faqs'].map((tab) => (
                                     <button
                                         key={tab}
-                                        onClick={() => setActiveTab(tab as 'benefits' | 'faqs')}
+                                        onClick={() => {
+                                            setActiveTab(tab as 'benefits' | 'faqs');
+                                            setSelectedBenefit(null);
+                                        }}
                                         className={`flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-300
-                                            ${activeTab === tab
+                                                ${activeTab === tab
                                                 ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white'
                                                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                                             }`}
@@ -135,24 +138,24 @@ export default function JoinCard() {
                                 <div className="transition-all duration-300 flex">
                                     {/* Benefits Panel */}
                                     <div
-                                        className={`w-full flex-shrink-0 transition-all duration-300 transform
-                                            ${activeTab === 'benefits' ? 'translate-x-0' : '-translate-x-full'}`}
+                                        className={`w-full flex-shrink-0 transition-all duration-300 transform p-0.5
+                                                    ${activeTab === 'benefits' ? 'translate-x-0' : '-translate-x-full'}`}
                                     >
-                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-1 py-2">
                                             {benefits.map((benefit) => (
                                                 <li
                                                     key={benefit.title}
                                                     onClick={() => setSelectedBenefit(benefit.title)}
                                                     className={`group cursor-pointer transform transition-all duration-300
-                                                        hover:scale-[1.02] active:scale-[0.98]
-                                                        ${selectedBenefit === benefit.title
-                                                            ? 'ring-2 ring-apple-blue-500 dark:ring-apple-blue-400'
+                                                            hover:scale-[1.02] active:scale-[0.98] rounded-xl
+                                                            ${selectedBenefit === benefit.title
+                                                            ? 'ring-2 ring-apple-blue-500 dark:ring-apple-blue-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-900'
                                                             : ''
                                                         }`}
                                                 >
                                                     <article className="flex items-start space-x-4 p-4 rounded-xl
-                        bg-white/50 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/30
-                        hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-300">
+                                                                        bg-white/50 dark:bg-gray-800/30 border border-gray-200/50 dark:border-gray-700/30
+                                                                        hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors duration-300">
                                                         <div className="flex-shrink-0">
                                                             <div
                                                                 aria-hidden="true"
