@@ -1,6 +1,6 @@
 import { memo, useMemo, useEffect, useState, useRef } from 'react';
 import { type IconType } from 'react-icons';
-import debounce from '~/utils/Debounce';
+import debounce from '~/utils/debounce';
 
 export type PartnerCategory = "Education" | "Infrastructure" | "Technology";
 
