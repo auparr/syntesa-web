@@ -9,12 +9,12 @@ import {
   LiveReload,
 } from "@remix-run/react";
 import { ThemeProvider } from '~/contexts/ThemeContext';
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import AppLayout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import "./tailwind.css";
 import "./openstreetmap.css"
-
+import { SITE_META } from "./constants/site_meta";
 
 const themeScript = `
   let isDark;
@@ -28,26 +28,35 @@ const themeScript = `
   }
 `;
 
+export const meta: MetaFunction = () => [
+  { charset: "utf-8" },
+  { title: SITE_META.title },
+  { viewport: "width=device-width,initial-scale=1" },
+  { name: "description", content: SITE_META.description },
+  { property: "og:title", content: SITE_META.title },
+  { property: "og:description", content: SITE_META.description },
+  { property: "og:type", content: "website" },
+  { property: "og:url", content: SITE_META.siteUrl },
+  { name: "twitter:card", content: "summary_large_image" },
+  { name: "twitter:title", content: SITE_META.title },
+  { name: "twitter:description", content: SITE_META.description },
+];
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap",
-  },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" },
+  { rel: "canonical", href: SITE_META.siteUrl },
 ];
 
-function Document({ children }: { children: React.ReactNode }) {
+function Document({ children, title }: { children: React.ReactNode; title?: string }) {
   return (
     <html lang="en" className="h-full">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index,follow" />
+        {title && <title>{title}</title>}
         <Meta />
         <Links />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -62,10 +71,9 @@ function Document({ children }: { children: React.ReactNode }) {
   );
 }
 
-
 export default function App() {
   return (
-    <Document>
+    <Document title={SITE_META.title}>
       <ThemeProvider>
         <Outlet />
       </ThemeProvider>
@@ -75,9 +83,10 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
+  const title = `Error - ${SITE_META.title}`;
 
   return (
-    <Document>
+    <Document title={title}>
       <ThemeProvider>
         <AppLayout>
           <NotFound

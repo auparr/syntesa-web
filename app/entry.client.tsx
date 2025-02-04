@@ -8,6 +8,22 @@ import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
+// Defer non-critical scripts
+const deferScriptLoad = () => {
+  const nonCriticalScripts = document.querySelectorAll(
+    'script[data-defer="true"]'
+  );
+  nonCriticalScripts.forEach((script) => {
+    script.setAttribute("src", script.getAttribute("data-src") || "");
+  });
+};
+
+if (typeof requestIdleCallback === "function") {
+  requestIdleCallback(deferScriptLoad);
+} else {
+  setTimeout(deferScriptLoad, 1000);
+}
+
 startTransition(() => {
   hydrateRoot(
     document,
@@ -16,3 +32,4 @@ startTransition(() => {
     </StrictMode>
   );
 });
+
