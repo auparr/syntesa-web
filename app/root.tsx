@@ -6,15 +6,28 @@ import {
   ScrollRestoration,
   useRouteError,
   isRouteErrorResponse,
-  Link,
   LiveReload,
 } from "@remix-run/react";
-import { ThemeProvider, themeScript } from '~/contexts/ThemeContext';
+import { ThemeProvider } from '~/contexts/ThemeContext';
 import type { LinksFunction } from "@remix-run/node";
 import AppLayout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import "./tailwind.css";
 import "./openstreetmap.css"
+
+
+const themeScript = `
+  let isDark;
+  const theme = localStorage.getItem('theme');
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+  isDark = theme === 'dark' || (!theme && systemTheme === 'dark');
+
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  }
+`;
+
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -64,26 +77,15 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
-      <body className="h-full">
-        <ThemeProvider>
-          <AppLayout>
-            <NotFound
-              errorMessage={isRouteErrorResponse(error) ? "page_not_found" : "unknown_error"}
-              errorCode={isRouteErrorResponse(error) ? "not_found" : "error"}
-            />
-          </AppLayout>
-        </ThemeProvider>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <Document>
+      <ThemeProvider>
+        <AppLayout>
+          <NotFound
+            errorMessage={isRouteErrorResponse(error) ? "page_not_found" : "unknown_error"}
+            errorCode={isRouteErrorResponse(error) ? "not_found" : "error"}
+          />
+        </AppLayout>
+      </ThemeProvider>
+    </Document>
   );
 }

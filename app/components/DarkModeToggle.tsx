@@ -1,12 +1,19 @@
 import { HiMoon, HiSun } from 'react-icons/hi';
-import { useTheme } from '~/contexts/ThemeContext';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 export default function DarkModeToggle() {
-    const { isDark, toggleTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    // Prevent hydration mismatch
+    useEffect(() => setMounted(true), []);
+
+    if (!mounted) return null;
 
     return (
         <button
-            onClick={toggleTheme}
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             className="p-2 rounded-full transition-colors duration-200
                 hover:bg-gray-100/50 dark:hover:bg-gray-800/50
                 relative group"
@@ -17,13 +24,13 @@ export default function DarkModeToggle() {
                 <HiSun
                     className={`w-full h-full absolute inset-0 transition-all duration-300
                         text-gray-900 dark:text-gray-400
-                        ${isDark ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`}
+                        ${theme === 'dark' ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`}
                 />
                 {/* Moon icon */}
                 <HiMoon
                     className={`w-full h-full absolute inset-0 transition-all duration-300
                         text-gray-900 dark:text-white
-                        ${isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`}
+                        ${theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`}
                 />
             </div>
 
