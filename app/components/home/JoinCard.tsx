@@ -20,7 +20,7 @@ const faqs: FAQ[] = [
     },
     {
         question: "What are the prerequisites?",
-        answer: "Basic programming knowledge, strong problem-solving skills, and passion for technology. Specific requirements vary by study club."
+        answer: "Basic programming knowledge, strong problem-solving skills, and passion for technology. Specific requirements vary by interest groups."
     },
     {
         question: "When can I start?",

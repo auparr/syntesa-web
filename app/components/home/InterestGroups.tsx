@@ -13,7 +13,7 @@ export type ClubDetails = Record<GroupName, readonly string[]>;
 export type ClubSchedules = Record<GroupName, string>;
 
 interface InterestGroupsProps {
-    studyClubs: readonly TypeInterestGroup[];
+    interestGroups: readonly TypeInterestGroup[];
     getClubDetails: (club: GroupName) => string[];
     getClubSchedule: (club: GroupName) => string;
 }
@@ -59,16 +59,16 @@ export default function InterestGroups(props: InterestGroupsProps) {
             <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
                 <div className="text-center mb-12 sm:mb-16">
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                        Study Clubs
+                        Interest Groups
                     </h2>
                     <p className="text-sm sm:text-base lg:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-                        Join our specialized study clubs and develop your expertise in various domains of software engineering
+                        Join our specialized interest groups and develop your expertise in various domains of software engineering
                     </p>
                 </div>
 
                 {/* <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12"> */}
                 <div className="flex flex-wrap justify-center gap-6 sm:gap-8 lg:gap-12">
-                    {props.studyClubs.map((club) => (
+                    {props.interestGroups.map((club) => (
                         <div
                             key={club.name}
                             // className="relative group mx-0"

@@ -5,7 +5,7 @@ import Partners from "~/components/home/Partners";
 import Projects from "~/components/home/Projects";
 import InterestGroups from "~/components/home/InterestGroups";
 import Layout from "~/components/Layout";
-import { getClubDetails, getClubSchedule, latestProjects, partnerships, studyClubs } from "~/constants/index_contents";
+import { getGroupDetails, getGroupSchedule, latestProjects, partnerships, interestGroups } from "~/constants/index_contents";
 import { SITE_META } from "~/constants/site_meta";
 
 export const meta: MetaFunction = () => [
@@ -20,9 +20,9 @@ export default function Index() {
         <Hero />
         <Partners partners={partnerships} />
         <InterestGroups
-          studyClubs={studyClubs}
-          getClubDetails={getClubDetails}
-          getClubSchedule={getClubSchedule}
+          interestGroups={interestGroups}
+          getClubDetails={getGroupDetails}
+          getClubSchedule={getGroupSchedule}
         />
         {/* <Projects latestProjects={latestProjects} /> */}
         <JoinCard />

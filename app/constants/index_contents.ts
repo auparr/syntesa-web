@@ -5,7 +5,7 @@ import { TypePartner } from "~/components/home/Partners";
 import { TypeProject } from "~/components/home/Projects";
 import { TypeInterestGroup } from "~/components/home/InterestGroups";
 
-export const studyClubs: TypeInterestGroup[] = [
+export const interestGroups: TypeInterestGroup[] = [
     {
         name: "Software Development",
         description: "Master modern software development technologies and build responsive, scalable applications. Learn from industry and work on real-world projects.",
@@ -24,7 +24,7 @@ export const studyClubs: TypeInterestGroup[] = [
 ];
 
 
-export const getClubDetails = (clubName: string) => {
+export const getGroupDetails = (clubName: string) => {
     const details = {
         "Software Development": [
             "Web Development (Frontend & Backend Development)",
@@ -49,7 +49,7 @@ export const getClubDetails = (clubName: string) => {
     return details[clubName as keyof typeof details];
 };
 
-export const getClubSchedule = (clubName: string) => {
+export const getGroupSchedule = (clubName: string) => {
     const schedules = {
         "Software Development": "Meets every Tuesday & Thursday",
         "Data Science": "Meets every Monday & Wednesday",
