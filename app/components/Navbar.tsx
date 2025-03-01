@@ -108,7 +108,7 @@ export default function Navbar({ socialLinks }: NavbarProps) {
                         {/* Mobile menu button */}
                         <div className="md:hidden flex items-center gap-2">
                             <DarkModeToggle />
-                            <button
+                            {/* <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50
                                     transition-colors duration-200"
@@ -122,7 +122,7 @@ export default function Navbar({ socialLinks }: NavbarProps) {
                                     <span className={`absolute w-5 h-0.5 bg-gray-900 dark:bg-white transform transition-all duration-300
             ${isMobileMenuOpen ? '-rotate-45' : 'translate-y-1'}`} />
                                 </div>
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
