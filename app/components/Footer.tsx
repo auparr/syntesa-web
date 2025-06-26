@@ -106,13 +106,13 @@ export default function Footer({ socialLinks }: FooterProps) {
                 </div>
 
                 {/* Map Section */}
-                <div className="mt-12">
+                {/* <div className="mt-12">
                     <Suspense fallback={
                         <div className="relative w-full h-48 sm:h-56 rounded-xl overflow-hidden border border-gray-200/50 dark:border-gray-700/30 bg-gray-100 dark:bg-gray-800/50 animate-pulse" />
                     }>
                         <OpenStreetMap />
                     </Suspense>
-                </div>
+                </div> */}
 
                 {/* Copyright */}
                 <div className="mt-12 pt-8 border-t border-gray-200/10 dark:border-gray-800/50">
