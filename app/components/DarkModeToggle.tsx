@@ -1,20 +1,13 @@
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import { HiMoon, HiSun } from "react-icons/hi";
+import { useTheme } from "~/contexts/ThemeContext";
 
 export default function DarkModeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={toggleTheme}
       className="p-2 rounded-full transition-colors duration-200
                 hover:bg-gray-100/50 dark:hover:bg-gray-800/50
                 relative group"

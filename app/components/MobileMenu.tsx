@@ -1,5 +1,5 @@
-import { Link, NavLink } from "@remix-run/react";
 import type { IconType } from "react-icons";
+import { Link, NavLink } from "react-router";
 
 interface MobileMenuProps {
   isOpen: boolean;

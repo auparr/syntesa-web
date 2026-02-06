@@ -4,8 +4,8 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "build": "react-router build",
+    "dev": "react-router dev",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "format:check": "biome format .",
@@ -16,20 +16,20 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@remix-run/node": "^2.17.4",
-    "@remix-run/react": "^2.17.4",
-    "isbot": "^4",
-    "next-themes": "^0.4.6",
+    "@react-router/node": "^7.13.0",
+    "isbot": "^5",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-icons": "^5.5.0",
+    "react-router": "^7.13.0",
     "terser": "^5.46.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.14",
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
-    "@remix-run/dev": "^2.17.4",
+    "@react-router/dev": "^7.13.0",
+    "@react-router/fs-routes": "^7.13.0",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",

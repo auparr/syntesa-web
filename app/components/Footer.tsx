@@ -1,7 +1,7 @@
-import { Link } from "@remix-run/react";
 import type { IconType } from "react-icons";
 import { HiMail } from "react-icons/hi";
 import { IoLocationSharp } from "react-icons/io5";
+import { Link } from "react-router";
 
 interface FooterProps {
   socialLinks: Array<{

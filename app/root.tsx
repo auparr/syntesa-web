@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "react-router";
 import {
   isRouteErrorResponse,
   Links,
@@ -7,7 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteError,
-} from "@remix-run/react";
+} from "react-router";
 import AppLayout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
 import { ThemeProvider } from "~/contexts/ThemeContext";

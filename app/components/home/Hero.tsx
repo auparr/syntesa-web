@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import AnimatedCounter from "~/components/AnimatedCounter";
 
 export default function Hero() {
