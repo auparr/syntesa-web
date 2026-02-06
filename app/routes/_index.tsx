@@ -1,11 +1,15 @@
 import type { MetaFunction } from "@remix-run/node";
 import Hero from "~/components/home/Hero";
+import InterestGroups from "~/components/home/InterestGroups";
 import JoinCard from "~/components/home/JoinCard";
 import Partners from "~/components/home/Partners";
-import Projects from "~/components/home/Projects";
-import InterestGroups from "~/components/home/InterestGroups";
 import Layout from "~/components/Layout";
-import { getGroupDetails, getGroupSchedule, latestProjects, partnerships, interestGroups } from "~/constants/index_contents";
+import {
+  getGroupDetails,
+  getGroupSchedule,
+  interestGroups,
+  partnerships,
+} from "~/constants/index_contents";
 import { SITE_META } from "~/constants/site_meta";
 
 export const meta: MetaFunction = () => [
@@ -24,7 +28,6 @@ export default function Index() {
           getClubDetails={getGroupDetails}
           getClubSchedule={getGroupSchedule}
         />
-        {/* <Projects latestProjects={latestProjects} /> */}
         <JoinCard />
       </Layout>
     </div>

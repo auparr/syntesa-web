@@ -2,5 +2,19 @@ node_modules
 
 /.cache
 /build
+dist/
+
 .env
+.env.*
+!.env.example
+
 package-lock.json
+*.tsbuildinfo
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.local

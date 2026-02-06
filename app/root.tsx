@@ -1,19 +1,17 @@
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useRouteError,
-  isRouteErrorResponse,
-  LiveReload,
 } from "@remix-run/react";
-import { ThemeProvider } from '~/contexts/ThemeContext';
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import AppLayout from "~/components/Layout";
 import NotFound from "~/components/NotFound";
+import { ThemeProvider } from "~/contexts/ThemeContext";
 import "./tailwind.css";
-import "./openstreetmap.css"
 import { SITE_META } from "./constants/site_meta";
 
 const themeScript = `
@@ -45,7 +43,10 @@ export const meta: MetaFunction = () => [
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" },
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap",
+  },
   { rel: "canonical", href: SITE_META.siteUrl },
 ];
 
@@ -59,13 +60,13 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
         {title && <title>{title}</title>}
         <Meta />
         <Links />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: inline theme script prevents FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="h-full">
         {children}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
