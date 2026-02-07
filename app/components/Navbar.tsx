@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
 import { Link } from "react-router";
+import { logoDark, logoLight } from "~/assets/logo";
 import type { SocialLink } from "~/types";
 import DarkModeToggle from "./DarkModeToggle";
 
@@ -8,67 +10,78 @@ interface NavbarProps {
 }
 
 export default function Navbar({ socialLinks }: NavbarProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
   const discordLink = socialLinks.find((link) => link.name === "Discord");
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    function onScroll() {
+      const y = window.scrollY;
+      const diff = y - lastY.current;
+      lastY.current = y;
+
+      if (y < 80) {
+        setHidden(false);
+        return;
+      }
+
+      if (diff > 5) {
+        setHidden(true);
+      } else if (diff < -5) {
+        setHidden(false);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed w-full top-0 z-50 transition-all duration-300
-                ${isScrolled ? "bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl" : "bg-transparent"}`}
+      className={`fixed w-full top-0 z-50 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800 transition-transform duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${hidden ? "-translate-y-full" : "translate-y-0"}`}
     >
-      <div className="max-w-6xl mx-auto px-6 sm:px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-480 mx-auto w-full border-x border-gray-200 dark:border-neutral-800">
+        <div className="flex items-center justify-between h-20 px-6 sm:px-12">
           <div className="flex items-center">
-            <Link
-              to="/"
-              className="text-xl font-bold bg-clip-text text-transparent
-                                    bg-gradient-to-r from-gray-900 to-gray-600
-                                    dark:from-white dark:to-gray-400"
-            >
-              Syntesa
+            <Link to="/" className="block">
+              <img src={logoLight} alt="Syntesa" className="h-8 w-auto dark:hidden" />
+              <img src={logoDark} alt="Syntesa" className="h-8 w-auto hidden dark:block" />
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center gap-1">
-            <div className="ml-4">
-              <DarkModeToggle />
+          <div className="flex items-center gap-6 sm:gap-8">
+            <div className="hidden md:flex items-center gap-8">
+              <Link
+                to="/programs"
+                className="text-sm font-medium text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-apple-blue-400 transition-colors"
+              >
+                Programs
+              </Link>
+              <Link
+                to="/about"
+                className="text-sm font-medium text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-apple-blue-400 transition-colors"
+              >
+                About
+              </Link>
             </div>
 
-            {discordLink && (
-              <div className="hidden md:flex items-center ml-2">
+            <div className="w-px h-6 bg-gray-200 dark:bg-neutral-800 hidden md:block" />
+
+            <div className="flex items-center gap-4">
+              <DarkModeToggle />
+
+              {discordLink && (
                 <a
                   href={discordLink.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full
-                                            transition-colors duration-200 group relative
-                                            bg-gray-900 dark:bg-white
-                                            hover:bg-gray-500 dark:hover:bg-gray-300"
+                  className="hidden sm:flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-neutral-100 hover:opacity-70 transition-opacity"
                 >
-                  <discordLink.icon className="w-5 h-5 text-gray-100 dark:text-gray-800" />
-                  <span
-                    className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1
-                                            bg-gray-900 dark:bg-white text-white dark:text-gray-900
-                                            text-xs font-medium rounded-md opacity-0 group-hover:opacity-100
-                                            transition-opacity duration-200 whitespace-nowrap pointer-events-none"
-                  >
-                    Join Discord
-                  </span>
+                  <span>Join</span>
+                  <BsArrowRight />
                 </a>
-              </div>
-            )}
-          </div>
-
-          <div className="md:hidden flex items-center gap-2">
-            <DarkModeToggle />
+              )}
+            </div>
           </div>
         </div>
       </div>

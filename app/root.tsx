@@ -25,6 +25,42 @@ const themeScript = `
   }
 `;
 
+const loaderDismissScript = `
+  (function() {
+    var loader = document.getElementById('__loader');
+    if (!loader) return;
+    document.documentElement.style.overflow = 'hidden';
+    var start = Date.now();
+    var MIN_DISPLAY = 800;
+    var dismissed = false;
+
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      var elapsed = Date.now() - start;
+      var remaining = Math.max(0, MIN_DISPLAY - elapsed);
+      setTimeout(function() {
+        document.documentElement.style.overflow = '';
+        loader.classList.add('loader-exit');
+        var removed = false;
+        function remove() {
+          if (removed) return;
+          removed = true;
+          loader.remove();
+        }
+        loader.addEventListener('transitionend', remove);
+        setTimeout(remove, 700);
+      }, remaining);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(dismiss);
+    } else {
+      window.addEventListener('load', dismiss);
+    }
+  })();
+`;
+
 export const meta: MetaFunction = () => [
   { charset: "utf-8" },
   { title: SITE_META.title },
@@ -41,7 +77,15 @@ export const meta: MetaFunction = () => [
 
 export const links: LinksFunction = () => [{ rel: "canonical", href: SITE_META.siteUrl }];
 
-function Document({ children, title }: { children: React.ReactNode; title?: string }) {
+function Document({
+  children,
+  title,
+  showLoader = true,
+}: {
+  children: React.ReactNode;
+  title?: string;
+  showLoader?: boolean;
+}) {
   return (
     <html lang="en" className="h-full">
       <head>
@@ -56,9 +100,22 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="h-full">
+        {showLoader && (
+          <div id="__loader" className="loader-screen">
+            <div className="loader-ripple">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        )}
         {children}
         <ScrollRestoration />
         <Scripts />
+        {showLoader && (
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: inline loader dismiss script
+          <script dangerouslySetInnerHTML={{ __html: loaderDismissScript }} />
+        )}
       </body>
     </html>
   );
@@ -79,9 +136,9 @@ export function ErrorBoundary() {
   const title = `Error - ${SITE_META.title}`;
 
   return (
-    <Document title={title}>
+    <Document title={title} showLoader={false}>
       <ThemeProvider>
-        <div className="min-h-screen bg-[#FAFAFA] dark:bg-black">
+        <div className="min-h-screen bg-white dark:bg-neutral-950">
           <NotFound
             errorMessage={isRouteErrorResponse(error) ? "page_not_found" : "unknown_error"}
             errorCode={isRouteErrorResponse(error) ? "not_found" : "error"}

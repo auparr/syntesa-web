@@ -1,10 +1,11 @@
 import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
+import { imagetools } from "vite-imagetools";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [reactRouter(), tailwindcss(), tsconfigPaths()],
+  plugins: [reactRouter(), tailwindcss(), imagetools(), tsconfigPaths()],
   build: {
     minify: "terser",
     terserOptions: {
@@ -25,11 +26,11 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
-            if (id.includes("react")) {
-              return "vendor-react";
-            }
             if (id.includes("react-icons")) {
               return "vendor-icons";
+            }
+            if (id.includes("react")) {
+              return "vendor-react";
             }
             return "vendor";
           }

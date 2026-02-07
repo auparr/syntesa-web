@@ -7,28 +7,28 @@ export default function DarkModeToggle() {
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={(e) => toggleTheme(e)}
       className="p-2 rounded-full transition-colors duration-200
-                hover:bg-gray-100/50 dark:hover:bg-gray-800/50
+                hover:bg-gray-100/50 dark:hover:bg-neutral-800/50
                 relative group"
       aria-label="Toggle dark mode"
     >
       <div className="relative w-5 h-5 transition-transform duration-300">
         <HiSun
           className={`w-full h-full absolute inset-0 transition-all duration-300
-                        text-gray-900 dark:text-gray-400
-                        ${theme === "dark" ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"}`}
+                         text-gray-900 dark:text-neutral-400
+                         ${theme === "dark" ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"}`}
         />
         <HiMoon
           className={`w-full h-full absolute inset-0 transition-all duration-300
-                        text-gray-900 dark:text-white
+                         text-gray-900 dark:text-apple-blue-400
                         ${theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-50"}`}
         />
       </div>
 
       <span
         className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1
-                bg-gray-900 dark:bg-white text-white dark:text-gray-900
+                bg-gray-900 dark:bg-neutral-800 text-white dark:text-neutral-100
                 text-xs font-medium rounded-md opacity-0 group-hover:opacity-100
                 transition-opacity duration-200 whitespace-nowrap pointer-events-none"
       >

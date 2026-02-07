@@ -5,6 +5,6 @@ export default [
   layout("components/Layout.tsx", [
     index("routes/_index.tsx"),
     route("programs", "routes/programs.tsx"),
-    route("projects", "routes/projects.tsx"),
+    route("about", "routes/about.tsx"),
   ]),
 ] satisfies RouteConfig;

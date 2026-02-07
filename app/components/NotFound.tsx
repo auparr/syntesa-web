@@ -10,89 +10,54 @@ export default function NotFound({
   errorCode = "not_found",
 }: NotFoundProps) {
   return (
-    <div className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-gray-50/80 via-white to-gray-50/80
-                    dark:from-black dark:via-gray-900 dark:to-black animate-gradient-xy"
-        />
-
-        <div className="absolute inset-0">
-          <div
-            className="absolute top-1/4 left-1/4 w-64 h-64
-                        bg-apple-blue-500/[0.03] dark:bg-apple-blue-400/[0.03]
-                        rounded-full blur-3xl animate-pulse-slow"
-            style={{ animationDuration: "10s" }}
-          />
-          <div
-            className="absolute bottom-1/4 right-1/4 w-96 h-96
-                        bg-apple-blue-600/[0.02] dark:bg-apple-blue-500/[0.02]
-                        rounded-full blur-3xl animate-pulse-slow"
-            style={{ animationDuration: "15s", animationDelay: "-5s" }}
-          />
-        </div>
-
-        <div
-          className="absolute inset-0 bg-[linear-gradient(rgba(77,145,255,0.02)_0.5px,transparent_0.5px),linear-gradient(to_right,rgba(77,145,255,0.02)_0.5px,transparent_0.5px)]
-                    dark:bg-[linear-gradient(rgba(77,145,255,0.01)_0.5px,transparent_0.5px),linear-gradient(to_right,rgba(77,145,255,0.01)_0.5px,transparent_0.5px)]
-                    bg-[size:32px_32px] opacity-75"
-        />
-      </div>
-
-      <div className="relative text-center px-4">
-        <div className="relative">
-          <h1
-            className="text-[12rem] sm:text-[16rem] font-bold leading-none
-                        bg-clip-text text-transparent bg-gradient-to-b from-gray-900/80 to-gray-900/20
-                        dark:from-white/80 dark:to-white/20"
-          >
+    <div className="min-h-[80vh] flex flex-col items-center justify-center bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800">
+      <div className="max-w-480 mx-auto w-full border-x border-gray-200 dark:border-neutral-800 grid grid-cols-1 lg:grid-cols-2 h-full min-h-150">
+        <div className="flex items-center justify-center p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-900/20 bg-dot-grid">
+          <h1 className="text-[8rem] sm:text-[12rem] font-bold leading-none tracking-tighter text-gray-900 dark:text-neutral-100 font-mono">
             404
           </h1>
-
-          <div
-            className="absolute -top-8 left-1/2 -translate-x-1/2 w-64 h-64
-                        bg-apple-blue-500/10 dark:bg-apple-blue-400/10
-                        rounded-full blur-3xl"
-          />
         </div>
 
-        <div className="relative z-10 space-y-6 mt-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-            Page not found
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-            The page you're looking for doesn't exist or has been moved. Let's get you back on
-            track.
-          </p>
+        <div className="flex flex-col justify-center p-12 sm:p-24 space-y-12">
+          <div className="space-y-6">
+            <div className="inline-block px-3 py-1 border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 text-xs font-mono uppercase tracking-wider">
+              Error: {errorCode}
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100">
+              Page not found.
+            </h2>
+
+            <p className="text-lg text-gray-600 dark:text-neutral-400 max-w-md">
+              The page you are looking for does not exist or has been moved. Please verify the URL
+              or navigate back to the homepage.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-4">
             <Link
               to="/"
-              className="px-8 py-4 rounded-full bg-gray-900 dark:bg-white
-                    text-white dark:text-gray-900 text-base font-medium
-                    hover:shadow-xl transform transition-all duration-300
-                    shadow-gray-900/10"
+              className="px-8 py-3 border border-gray-900 dark:border-apple-blue-500 bg-gray-900 dark:bg-apple-blue-500 text-white dark:text-white text-sm font-medium hover:bg-transparent hover:text-gray-900 dark:hover:bg-transparent dark:hover:text-apple-blue-400 transition-colors uppercase tracking-wider"
             >
               Return Home
             </Link>
             <Link
               to=".."
-              className="px-8 py-4 rounded-full border-2 border-gray-900/10 dark:border-white/10
-                    text-base font-medium text-gray-900 dark:text-white
-                    hover:bg-gray-900/5 dark:hover:bg-white/5 transition-all duration-300"
+              className="px-8 py-3 border border-gray-200 dark:border-neutral-700 text-gray-900 dark:text-neutral-100 text-sm font-medium hover:border-gray-900 dark:hover:border-apple-blue-400 dark:hover:text-apple-blue-400 transition-colors uppercase tracking-wider"
             >
               Go Back
             </Link>
           </div>
-        </div>
 
-        <div className="absolute inset-x-0 bottom-0 hidden sm:block">
-          <pre className="text-left text-sm text-gray-600/30 dark:text-gray-400/30 px-4">
-            <code>{`404 {
-  status: "${errorCode}",
-  error: "${errorMessage}"
-}`}</code>
-          </pre>
+          <div className="pt-12 border-t border-gray-200 dark:border-neutral-800">
+            <pre className="font-mono text-xs text-gray-400 dark:text-neutral-600">
+              {`{
+  "status": 404,
+  "error": "${errorMessage}",
+  "timestamp": "${new Date().toISOString()}"
+}`}
+            </pre>
+          </div>
         </div>
       </div>
     </div>

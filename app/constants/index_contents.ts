@@ -1,21 +1,29 @@
 import { FaAws, FaMicrosoft } from "react-icons/fa";
-import { HiCode, HiServer } from "react-icons/hi";
+import {
+  LuCircuitBoard,
+  LuCpu,
+  LuHardDrive,
+  LuMemoryStick,
+  LuMonitor,
+  LuNetwork,
+} from "react-icons/lu";
 import { SiDatacamp, SiGooglecloud, SiJunipernetworks, SiRedhat } from "react-icons/si";
+import { bcaLogo, citilinkLogo, datacommLogo, superbankLogo } from "~/assets/intern-company";
+import type { TypeLabSpec } from "~/components/home/Infrastructure";
 import type { GroupName, TypeInterestGroup } from "~/components/home/InterestGroups";
 import type { TypePartner } from "~/components/home/Partners";
+import type { TypeSenior } from "~/components/home/Seniors";
 
 export const interestGroups: TypeInterestGroup[] = [
   {
     name: "Software Development",
     description:
       "Master modern software engineering by building scalable applications and intelligent systems. From web platforms to AI integration, learn to solve real-world problems with code.",
-    icon: HiCode,
   },
   {
     name: "Cloud and Infrastructure",
     description:
       "Learn to bridge the gap between development and operations. Develop expertise in managing and securing computer systems and networks. Learn essential skills for modern IT infrastructure.",
-    icon: HiServer,
   },
 ];
 
@@ -39,49 +47,109 @@ export const getGroupDetails = (clubName: GroupName): string[] => {
   return details[clubName];
 };
 
-export const getGroupSchedule = (clubName: GroupName): string => {
-  const schedules: Record<GroupName, string> = {
-    "Software Development": "Meets every Friday",
-    "Cloud and Infrastructure": "Meets every Wednesday & Friday",
-  };
-  return schedules[clubName];
-};
-
 export const partnerships: TypePartner[] = [
   {
     name: "DataCamp",
     icon: SiDatacamp,
     description: "Official learning partner for data science education",
-    category: "Education",
   },
   {
     name: "Juniper Networks",
     icon: SiJunipernetworks,
     description: "Infrastructure and networking solutions partner",
-    category: "Infrastructure",
   },
   {
     name: "Red Hat",
     icon: SiRedhat,
     description: "Open source and cloud technology partner",
-    category: "Technology",
   },
   {
     name: "Microsoft",
     icon: FaMicrosoft,
     description: "Cloud and development tools partner",
-    category: "Technology",
   },
   {
     name: "AWS",
     icon: FaAws,
     description: "Cloud infrastructure partner",
-    category: "Infrastructure",
   },
   {
     name: "Google Cloud",
     icon: SiGooglecloud,
     description: "Cloud and AI technology partner",
-    category: "Technology",
+  },
+];
+
+export const labSpecs: TypeLabSpec[] = [
+  {
+    label: "CPU Cores",
+    value: "64 Cores",
+    detail: "AMD EPYC 7763, Intel i7, Intel i9",
+    icon: LuCpu,
+  },
+  {
+    label: "Memory",
+    value: "512 GB",
+    detail: "DDR4 ECC",
+    icon: LuMemoryStick,
+  },
+  {
+    label: "GPU",
+    value: "NVIDIA RTX 3050, 4080",
+    detail: "80 GB VRAM",
+    icon: LuCircuitBoard,
+  },
+  {
+    label: "Storage",
+    value: "20 TB",
+    detail: "NVMe SSD, HDD SATA",
+    icon: LuHardDrive,
+  },
+  {
+    label: "Network",
+    value: "1 Gbps",
+    detail: "Dedicated uplink",
+    icon: LuNetwork,
+  },
+  {
+    label: "Workstations",
+    value: "12 Units",
+    detail: "Available 24/7",
+    icon: LuMonitor,
+  },
+];
+
+export const seniors: TypeSenior[] = [
+  {
+    name: "Naufal Farras Pratama",
+    role: "Backend Engineer Intern",
+    company: "Superbank",
+    logo: superbankLogo,
+    prodi: "Teknik Informatika",
+    batch: "2022",
+  },
+  {
+    name: "Muhammad Istiqlal",
+    role: "Cloud Development Engineer",
+    company: "Datacomm Diangraha",
+    logo: datacommLogo,
+    prodi: "Teknik Informatika",
+    batch: "2022",
+  },
+  {
+    name: "Helmy Luqmanulhakim",
+    role: "Application Developer",
+    company: "Bank Central Asia",
+    logo: bcaLogo,
+    prodi: "Teknik Informatika",
+    batch: "2022",
+  },
+  {
+    name: "Cornelius Louis Nathan",
+    role: "Software Engineer",
+    company: "Citilink",
+    logo: citilinkLogo,
+    prodi: "Teknik Informatika",
+    batch: "2023",
   },
 ];
