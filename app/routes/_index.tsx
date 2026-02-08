@@ -1,4 +1,4 @@
-import type { MetaFunction } from "react-router";
+import type { LinksFunction, MetaFunction } from "react-router";
 import Hero from "~/components/home/Hero";
 import Infrastructure from "~/components/home/Infrastructure";
 import InterestGroups from "~/components/home/InterestGroups";
@@ -15,13 +15,18 @@ import {
   partnerships,
   seniors,
 } from "~/constants/index_contents";
-import { SITE_META } from "~/constants/site_meta";
 import { socialLinks } from "~/constants/socialLinks";
+import { generateLinks, generateMeta } from "~/utils/seo";
 
-export const meta: MetaFunction = () => [
-  { title: SITE_META.title },
-  { name: "description", content: SITE_META.description },
-];
+export const meta: MetaFunction = () =>
+  generateMeta({
+    title: "Syntesa - Software Engineering Lab, Universitas Negeri Surabaya",
+    description:
+      "Advanced software engineering education and research facility at UNESA. Join our community of researchers and engineers advancing software construction, cloud infrastructure, and applied ML.",
+    path: "/",
+  });
+
+export const links: LinksFunction = () => generateLinks("/");
 
 export default function Index() {
   return (

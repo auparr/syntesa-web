@@ -12,6 +12,13 @@ import NotFound from "~/components/NotFound";
 import { ThemeProvider } from "~/contexts/ThemeContext";
 import "./tailwind.css";
 import { SITE_META } from "./constants/site_meta";
+import {
+  generateMeta,
+  generateOrganizationJsonLd,
+  generatePreconnectLinks,
+  generateSecurityMeta,
+  generateWebSiteJsonLd,
+} from "./utils/seo";
 
 const themeScript = `
   let isDark;
@@ -61,21 +68,16 @@ const loaderDismissScript = `
   })();
 `;
 
-export const meta: MetaFunction = () => [
-  { charset: "utf-8" },
-  { title: SITE_META.title },
-  { viewport: "width=device-width,initial-scale=1" },
-  { name: "description", content: SITE_META.description },
-  { property: "og:title", content: SITE_META.title },
-  { property: "og:description", content: SITE_META.description },
-  { property: "og:type", content: "website" },
-  { property: "og:url", content: SITE_META.siteUrl },
-  { name: "twitter:card", content: "summary_large_image" },
-  { name: "twitter:title", content: SITE_META.title },
-  { name: "twitter:description", content: SITE_META.description },
+export const meta: MetaFunction = () => [...generateMeta(), ...generateSecurityMeta()];
+
+export const links: LinksFunction = () => [
+  { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+  { rel: "manifest", href: "/site.webmanifest" },
+  ...generatePreconnectLinks(),
 ];
 
-export const links: LinksFunction = () => [{ rel: "canonical", href: SITE_META.siteUrl }];
+const jsonLd = JSON.stringify([generateOrganizationJsonLd(), generateWebSiteJsonLd()]);
 
 function Document({
   children,
@@ -92,12 +94,24 @@ function Document({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index,follow" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <meta
+          name="theme-color"
+          content={SITE_META.themeColor.light}
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content={SITE_META.themeColor.dark}
+          media="(prefers-color-scheme: dark)"
+        />
+        <meta name="color-scheme" content="light dark" />
         {title && <title>{title}</title>}
         <Meta />
         <Links />
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: inline theme script prevents FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       </head>
       <body className="h-full">
         {showLoader && (

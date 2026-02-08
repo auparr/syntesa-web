@@ -1,19 +1,30 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
-import type { MetaFunction } from "react-router";
+import type { LinksFunction, MetaFunction } from "react-router";
 import Reveal, { StaggerChildren, StaggerItem } from "~/components/Reveal";
-import { SITE_META } from "~/constants/site_meta";
+import { SEO } from "~/components/SEO";
 import { prefersReducedMotion } from "~/utils/prefersReducedMotion";
+import { generateLinks, generateMeta } from "~/utils/seo";
 
-export const meta: MetaFunction = () => [
-  { title: `Programs - ${SITE_META.title}` },
-  {
-    name: "description",
-    content:
-      "Explore programs offered by the Software Engineering Lab at Universitas Negeri Surabaya.",
-  },
-];
+export const meta: MetaFunction = () =>
+  generateMeta({
+    title: "Programs - Syntesa, Software Engineering Lab UNESA",
+    description:
+      "Explore structured learning tracks at the Software Engineering Lab UNESA. Software development, cloud infrastructure, certification pathways, and weekly schedules.",
+    path: "/programs",
+    keywords: [
+      "programs",
+      "courses",
+      "learning tracks",
+      "certifications",
+      "software development",
+      "cloud infrastructure",
+      "curriculum",
+    ],
+  });
+
+export const links: LinksFunction = () => generateLinks("/programs");
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -89,8 +100,39 @@ const schedule = [
 export default function Programs() {
   const [expandedProgram, setExpandedProgram] = useState<string | null>(programs[0].id);
 
+  const breadcrumbs = [
+    { name: "Home", path: "" },
+    { name: "Programs", path: "/programs" },
+  ];
+
+  const faq = [
+    {
+      question: "What are the learning tracks available at Syntesa?",
+      answer:
+        "We offer two main learning tracks: Software Development Track (covering web, mobile, API design, and ML) and Cloud & Infrastructure Track (covering Linux, networking, cloud platforms, and DevOps).",
+    },
+    {
+      question: "How often are sessions held?",
+      answer:
+        "Sessions are held weekly. Cloud & Infrastructure sessions are on Thursday, Friday, and Saturday. Software Development sessions are on Friday and Saturday. Offline sessions start at 9 AM.",
+    },
+    {
+      question: "What certifications can I earn through Syntesa?",
+      answer:
+        "Through our industry partnerships, members can access certification prep and exam vouchers for Red Hat System Administrator, Juniper Networks Associate, DataCamp Data Analyst, and Microsoft Azure Fundamentals.",
+    },
+  ];
+
+  const courses = programs.map((p) => ({
+    name: p.title,
+    description: p.description,
+    provider: "Syntesa - Software Engineering Lab UNESA",
+    topics: p.topics,
+  }));
+
   return (
     <div className="space-y-2">
+      <SEO breadcrumbs={breadcrumbs} faq={faq} courses={courses} />
       <section className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800">
         <span
           className="absolute top-4 left-4 text-gray-300 dark:text-neutral-700 text-xs font-mono select-none pointer-events-none"
@@ -196,11 +238,17 @@ export default function Programs() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="programs-tracks-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 border-b border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
-              <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+              <h2
+                id="programs-tracks-heading"
+                className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+              >
                 Learning Tracks
               </h2>
             </Reveal>
@@ -305,12 +353,18 @@ export default function Programs() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="programs-schedule-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="grid grid-cols-1 lg:grid-cols-12 border-b border-gray-200 dark:border-neutral-800">
             <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
               <Reveal>
-                <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                <h2
+                  id="programs-schedule-heading"
+                  className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+                >
                   Weekly Schedule
                 </h2>
               </Reveal>
@@ -375,11 +429,17 @@ export default function Programs() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="programs-certs-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 border-b border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
-              <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+              <h2
+                id="programs-certs-heading"
+                className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+              >
                 Certification Pathways
               </h2>
             </Reveal>

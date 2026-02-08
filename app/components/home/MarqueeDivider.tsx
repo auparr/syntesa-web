@@ -20,7 +20,10 @@ export default function MarqueeDivider({
   const isInView = useInView(ref, { once: true, amount: 0.05 });
 
   return (
-    <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800 overflow-hidden">
+    <section
+      aria-hidden="true"
+      className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800 overflow-hidden"
+    >
       <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
         <div
           ref={ref}

@@ -1,20 +1,21 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
-import type { MetaFunction } from "react-router";
+import type { LinksFunction, MetaFunction } from "react-router";
 import Reveal, { StaggerChildren, StaggerItem } from "~/components/Reveal";
-import { SITE_META } from "~/constants/site_meta";
+import { SEO } from "~/components/SEO";
 import { prefersReducedMotion } from "~/utils/prefersReducedMotion";
+import { generateLinks, generateMeta } from "~/utils/seo";
 
-export const meta: MetaFunction = () => [
-  { title: `About - ${SITE_META.title}` },
-  {
-    name: "description",
-    content:
-      "Learn about the Software Engineering Lab at Universitas Negeri Surabaya, our mission, our people, and how we advance software construction.",
-  },
-];
+export const meta: MetaFunction = () =>
+  generateMeta({
+    title: "About - Syntesa, Software Engineering Lab UNESA",
+    description:
+      "Learn about the Software Engineering Lab at Universitas Negeri Surabaya. Our mission, principles, timeline, and leadership team advancing software construction.",
+    path: "/about",
+    keywords: ["about", "mission", "team", "leadership", "timeline", "history"],
+  });
 
-const ease = [0.22, 1, 0.36, 1] as const;
+export const links: LinksFunction = () => generateLinks("/about");
 
 const headingLines = ["About", "The Lab"];
 
@@ -86,9 +87,17 @@ const team = [
   },
 ];
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export default function About() {
+  const breadcrumbs = [
+    { name: "Home", path: "" },
+    { name: "About", path: "/about" },
+  ];
+
   return (
     <div className="space-y-2">
+      <SEO breadcrumbs={breadcrumbs} />
       <section className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800">
         <span
           className="absolute top-4 left-4 text-gray-300 dark:text-neutral-700 text-xs font-mono select-none pointer-events-none"
@@ -195,12 +204,18 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-mission-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
               <Reveal>
-                <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                <h2
+                  id="about-mission-heading"
+                  className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+                >
                   Our Mission
                 </h2>
               </Reveal>
@@ -230,11 +245,17 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-principles-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 border-b border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
-              <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+              <h2
+                id="about-principles-heading"
+                className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+              >
                 Principles
               </h2>
             </Reveal>
@@ -271,11 +292,17 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-timeline-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 border-b border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
-              <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+              <h2
+                id="about-timeline-heading"
+                className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+              >
                 Timeline
               </h2>
             </Reveal>
@@ -315,12 +342,18 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-leadership-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="grid grid-cols-1 lg:grid-cols-12 border-b border-gray-200 dark:border-neutral-800">
             <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
               <Reveal>
-                <h2 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                <h2
+                  id="about-leadership-heading"
+                  className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
+                >
                   Leadership
                 </h2>
               </Reveal>

@@ -26,6 +26,7 @@ export default function InterestGroups(props: InterestGroupsProps) {
   return (
     <section
       id="interest-groups"
+      aria-labelledby="divisions-heading"
       className="relative bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
     >
       <span
@@ -60,7 +61,10 @@ export default function InterestGroups(props: InterestGroupsProps) {
           </div>
           <div className="lg:col-span-8 p-6 sm:p-12">
             <Reveal delay={0.1}>
-              <h3 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight">
+              <h3
+                id="divisions-heading"
+                className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
+              >
                 Specialized research groups focused on core pillars of modern computing.
               </h3>
             </Reveal>

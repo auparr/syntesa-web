@@ -22,7 +22,10 @@ export default function Partners({ partners }: PartnersProps) {
   const track = [...partners, ...partners];
 
   return (
-    <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+    <section
+      aria-labelledby="network-heading"
+      className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+    >
       <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
         <div
           ref={headerRef}
@@ -50,7 +53,10 @@ export default function Partners({ partners }: PartnersProps) {
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHeaderInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
               style={{ transitionDelay: isHeaderInView ? "100ms" : "0ms" }}
             >
-              <h3 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight">
+              <h3
+                id="network-heading"
+                className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
+              >
                 Collaborating with industry leaders to push boundaries.
               </h3>
             </div>

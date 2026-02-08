@@ -50,12 +50,14 @@ export default function MissionStatement({ text = DEFAULT_TEXT }: MissionStateme
   return (
     <section
       ref={sectionRef}
+      aria-labelledby="mission-heading"
       className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
     >
       <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
         <div className="border-b border-gray-200 dark:border-neutral-800 p-6 sm:p-12">
           <ScrambleText
             as="h2"
+            id="mission-heading"
             text="Mission"
             className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
           />
