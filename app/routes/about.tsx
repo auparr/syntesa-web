@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { BsArrowRight } from "react-icons/bs";
 import type { LinksFunction, MetaFunction } from "react-router";
-import Reveal, { StaggerChildren, StaggerItem } from "~/components/Reveal";
+import Reveal, { StaggerList, StaggerListItem } from "~/components/Reveal";
 import { SEO } from "~/components/SEO";
 import { prefersReducedMotion } from "~/utils/prefersReducedMotion";
 import { generateLinks, generateMeta } from "~/utils/seo";
@@ -98,7 +98,10 @@ export default function About() {
   return (
     <div className="space-y-2">
       <SEO breadcrumbs={breadcrumbs} />
-      <section className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-hero-heading"
+        className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800"
+      >
         <span
           className="absolute top-4 left-4 text-gray-300 dark:text-neutral-700 text-xs font-mono select-none pointer-events-none"
           aria-hidden="true"
@@ -127,7 +130,10 @@ export default function About() {
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-7 p-6 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]">
+              <h1
+                id="about-hero-heading"
+                className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]"
+              >
                 {headingLines.map((line, i) => (
                   <span key={line} className="block overflow-hidden">
                     <motion.span
@@ -171,7 +177,7 @@ export default function About() {
           </div>
 
           <div className="border-t border-gray-200 dark:border-neutral-800">
-            <motion.div
+            <motion.dl
               className="grid grid-cols-2 md:grid-cols-4"
               initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
               animate={{ opacity: 1 }}
@@ -185,21 +191,21 @@ export default function About() {
                 { label: "Active Members", value: "26+" },
                 { label: "Interest Groups", value: "02" },
                 { label: "Industry Partners", value: "06" },
-                { label: "Year Founded", value: "2023" },
+                { label: "Year Founded", value: "2023", isYear: true },
               ].map((stat, i) => (
                 <div
                   key={stat.label}
                   className={`p-6 sm:p-8 ${i % 2 === 0 ? "border-r border-gray-200 dark:border-neutral-800" : ""} ${i < 3 ? "md:border-r" : "md:border-r-0"} ${i < 2 ? "border-b md:border-b-0 border-gray-200 dark:border-neutral-800" : ""}`}
                 >
-                  <span className="block text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 font-mono mb-2">
+                  <dt className="text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 font-mono mb-2">
                     {stat.label}
-                  </span>
-                  <span className="block text-3xl sm:text-4xl font-light text-gray-900 dark:text-neutral-100">
-                    {stat.value}
-                  </span>
+                  </dt>
+                  <dd className="text-3xl sm:text-4xl font-light text-gray-900 dark:text-neutral-100">
+                    {stat.isYear ? <time dateTime={stat.value}>{stat.value}</time> : stat.value}
+                  </dd>
                 </div>
               ))}
-            </motion.div>
+            </motion.dl>
           </div>
         </div>
       </section>
@@ -267,16 +273,16 @@ export default function About() {
             </span>
           </div>
 
-          <StaggerChildren
-            stagger={0.08}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-          >
+          <StaggerList stagger={0.08} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {values.map((value, i) => (
-              <StaggerItem key={value.title}>
+              <StaggerListItem key={value.title}>
                 <div
                   className={`p-6 sm:p-10 ${i < values.length - 1 ? "border-b md:border-b-0 md:border-r border-gray-200 dark:border-neutral-800" : ""} ${i === 1 ? "lg:border-r border-gray-200 dark:border-neutral-800" : ""} min-h-0 sm:min-h-50 flex flex-col`}
                 >
-                  <span className="text-xs font-mono text-gray-400 dark:text-neutral-600 mb-4">
+                  <span
+                    className="text-xs font-mono text-gray-400 dark:text-neutral-600 mb-4"
+                    aria-hidden="true"
+                  >
                     {(i + 1).toString().padStart(2, "0")}
                   </span>
                   <h3 className="text-xl font-medium text-gray-900 dark:text-neutral-100 mb-3">
@@ -286,9 +292,9 @@ export default function About() {
                     {value.description}
                   </p>
                 </div>
-              </StaggerItem>
+              </StaggerListItem>
             ))}
-          </StaggerChildren>
+          </StaggerList>
         </div>
       </section>
 
@@ -314,21 +320,24 @@ export default function About() {
             </span>
           </div>
 
-          <StaggerChildren stagger={0.06}>
+          <StaggerList stagger={0.06} as="ol">
             {timeline.map((event, i) => (
-              <StaggerItem key={event.year}>
+              <StaggerListItem key={event.year}>
                 <div
                   className={`grid grid-cols-1 sm:grid-cols-12 ${i < timeline.length - 1 ? "border-b border-gray-200 dark:border-neutral-800" : ""}`}
                 >
                   <div className="sm:col-span-2 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <span className="text-2xl font-light text-gray-900 dark:text-neutral-100 font-mono">
+                    <time
+                      dateTime={event.year}
+                      className="text-2xl font-light text-gray-900 dark:text-neutral-100 font-mono"
+                    >
                       {event.year}
-                    </span>
+                    </time>
                   </div>
                   <div className="sm:col-span-3 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <span className="font-medium text-gray-900 dark:text-neutral-100">
+                    <h3 className="font-medium text-gray-900 dark:text-neutral-100">
                       {event.title}
-                    </span>
+                    </h3>
                   </div>
                   <div className="sm:col-span-7 p-6 sm:p-8">
                     <p className="text-sm text-gray-600 dark:text-neutral-400 leading-relaxed">
@@ -336,9 +345,9 @@ export default function About() {
                     </p>
                   </div>
                 </div>
-              </StaggerItem>
+              </StaggerListItem>
             ))}
-          </StaggerChildren>
+          </StaggerList>
         </div>
       </section>
 
@@ -374,45 +383,52 @@ export default function About() {
             </div>
           </div>
 
-          <StaggerChildren stagger={0.08}>
+          <StaggerList stagger={0.08}>
             {team.map((member, i) => (
-              <StaggerItem key={member.role}>
-                <div
+              <StaggerListItem key={member.role}>
+                <article
                   className={`grid grid-cols-1 sm:grid-cols-12 ${i < team.length - 1 ? "border-b border-gray-200 dark:border-neutral-800" : ""}`}
                 >
                   <div className="sm:col-span-2 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <span className="text-xs font-mono text-gray-400 dark:text-neutral-600">
+                    <span
+                      className="text-xs font-mono text-gray-400 dark:text-neutral-600"
+                      aria-hidden="true"
+                    >
                       {(i + 1).toString().padStart(2, "0")}
                     </span>
                   </div>
                   <div className="sm:col-span-4 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <span className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                    <p className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
                       {member.role}
-                    </span>
+                    </p>
                   </div>
                   <div className="sm:col-span-3 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <span className="font-medium text-gray-900 dark:text-neutral-100">
+                    <h3 className="font-medium text-gray-900 dark:text-neutral-100">
                       {member.name}
-                    </span>
+                    </h3>
                   </div>
                   <div className="sm:col-span-3 p-6 sm:p-8">
-                    <span className="text-sm text-gray-600 dark:text-neutral-400">
-                      {member.focus}
-                    </span>
+                    <p className="text-sm text-gray-600 dark:text-neutral-400">{member.focus}</p>
                   </div>
-                </div>
-              </StaggerItem>
+                </article>
+              </StaggerListItem>
             ))}
-          </StaggerChildren>
+          </StaggerList>
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="about-cta-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 lg:p-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
             <Reveal>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 dark:text-neutral-100">
+                <h2
+                  id="about-cta-heading"
+                  className="text-2xl sm:text-3xl font-medium text-gray-900 dark:text-neutral-100"
+                >
                   Interested in our work?
                 </h2>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
@@ -428,7 +444,10 @@ export default function About() {
                 className="group inline-flex items-center gap-3 px-8 py-3 border border-gray-900 dark:border-apple-blue-500 bg-gray-900 dark:bg-apple-blue-500 text-white dark:text-white text-sm font-medium hover:bg-transparent hover:text-gray-900 dark:hover:bg-transparent dark:hover:text-apple-blue-400 transition-colors uppercase tracking-wider shrink-0"
               >
                 Join Discord
-                <BsArrowRight className="transition-transform group-hover:translate-x-1" />
+                <BsArrowRight
+                  className="transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </a>
             </Reveal>
           </div>

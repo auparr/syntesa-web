@@ -30,7 +30,7 @@ export default function Seniors({ seniors }: SeniorsProps) {
           <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
               <ScrambleText
-                as="h2"
+                as="p"
                 text="Internships"
                 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
               />
@@ -44,12 +44,12 @@ export default function Seniors({ seniors }: SeniorsProps) {
           </div>
           <div className="lg:col-span-8 p-6 sm:p-12">
             <Reveal delay={0.1}>
-              <h3
+              <h2
                 id="placements-heading"
                 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
               >
                 Where our members have interned.
-              </h3>
+              </h2>
             </Reveal>
           </div>
         </div>
@@ -86,7 +86,7 @@ function SeniorCell({
   const isLastRow = index >= total - 2;
 
   return (
-    <div
+    <article
       className={[
         "group p-6 sm:p-10 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
@@ -99,18 +99,18 @@ function SeniorCell({
         .join(" ")}
       style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
     >
-      <div className="mb-6">
+      <figure className="mb-6">
         <img
           src={senior.logo}
           alt={senior.company}
           className="h-10 w-10 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           loading="lazy"
         />
-      </div>
+      </figure>
 
-      <h4 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 leading-tight">
+      <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 leading-tight">
         {senior.company}
-      </h4>
+      </h3>
 
       <p className="text-base text-gray-500 dark:text-neutral-400 mt-2">{senior.name}</p>
       <p className="text-sm text-gray-400 dark:text-neutral-500 mt-0.5">{senior.role}</p>
@@ -119,10 +119,13 @@ function SeniorCell({
         <span className="text-xs font-mono uppercase tracking-wider text-gray-400 dark:text-neutral-500 border border-gray-200 dark:border-neutral-800 px-2.5 py-1 group-hover:border-gray-300 dark:group-hover:border-neutral-700 transition-colors duration-300">
           {senior.prodi}
         </span>
-        <span className="text-xs font-mono text-gray-400 dark:text-neutral-600">
+        <time
+          dateTime={senior.batch}
+          className="text-xs font-mono text-gray-400 dark:text-neutral-600"
+        >
           {senior.batch}
-        </span>
+        </time>
       </div>
-    </div>
+    </article>
   );
 }

@@ -36,7 +36,7 @@ export default function Partners({ partners }: PartnersProps) {
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHeaderInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
             >
               <ScrambleText
-                as="h2"
+                as="p"
                 text="Network"
                 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
               />
@@ -53,12 +53,12 @@ export default function Partners({ partners }: PartnersProps) {
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHeaderInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
               style={{ transitionDelay: isHeaderInView ? "100ms" : "0ms" }}
             >
-              <h3
+              <h2
                 id="network-heading"
                 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
               >
                 Collaborating with industry leaders to push boundaries.
-              </h3>
+              </h2>
             </div>
           </div>
         </div>
@@ -72,17 +72,25 @@ export default function Partners({ partners }: PartnersProps) {
             style={{ width: "fit-content" }}
           >
             {[0, 1].map((half) => (
-              <div key={half} className="flex gap-12 sm:gap-24 items-center shrink-0 px-6 sm:px-12">
+              <ul
+                key={half}
+                className="flex gap-12 sm:gap-24 items-center shrink-0 px-6 sm:px-12"
+                aria-hidden={half === 1}
+              >
                 {track.map((partner, index) => (
-                  <div
+                  <li
                     // biome-ignore lint/suspicious/noArrayIndexKey: strictly for visual marquee
                     key={`partner-${half}-${index}`}
                     className="flex items-center justify-center shrink-0 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
                   >
-                    <partner.icon className="w-10 h-10 sm:w-16 sm:h-16 text-gray-900 dark:text-neutral-100" />
-                  </div>
+                    <partner.icon
+                      className="w-10 h-10 sm:w-16 sm:h-16 text-gray-900 dark:text-neutral-100"
+                      aria-hidden="true"
+                    />
+                    <span className="sr-only">{partner.name}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             ))}
           </div>
         </div>

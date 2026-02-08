@@ -20,6 +20,35 @@ html {
   }
 }
 
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-apple-blue-500 dark:outline-apple-blue-400;
+  outline-style: solid;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  @apply outline-2 outline-offset-2 outline-apple-blue-500 dark:outline-apple-blue-400 rounded-sm;
+  outline-style: solid;
+}
+
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+
+  a,
+  button {
+    text-decoration-thickness: 2px;
+  }
+}
+
 html.lenis,
 html.lenis body {
   height: auto;

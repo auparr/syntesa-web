@@ -31,6 +31,7 @@ export default function Hero({ socialLinks }: HeroProps) {
   return (
     <section
       ref={sectionRef}
+      aria-labelledby="hero-heading"
       className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 min-h-screen flex flex-col border-y border-gray-200 dark:border-neutral-800 overflow-hidden"
     >
       <span
@@ -58,7 +59,7 @@ export default function Hero({ socialLinks }: HeroProps) {
         +
       </span>
 
-      <div className="w-full h-px bg-gray-200 dark:bg-neutral-800" />
+      <div className="w-full h-px bg-gray-200 dark:bg-neutral-800" aria-hidden="true" />
 
       <motion.div
         style={{ y, opacity }}
@@ -66,7 +67,10 @@ export default function Hero({ socialLinks }: HeroProps) {
       >
         <div className="lg:col-span-8 p-6 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 flex flex-col justify-between">
           <div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]">
+            <h1
+              id="hero-heading"
+              className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]"
+            >
               {headingLines.map((line, i) => (
                 <span key={line} className="block overflow-hidden">
                   <span
@@ -100,7 +104,10 @@ export default function Hero({ socialLinks }: HeroProps) {
                   className="group inline-flex items-center gap-2 text-lg font-medium text-gray-900 dark:text-neutral-100 hover:text-gray-600 dark:hover:text-apple-blue-400 transition-colors"
                 >
                   Join the network
-                  <BsArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                  <BsArrowRight
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
                 </a>
               )}
             </div>
@@ -123,7 +130,7 @@ export default function Hero({ socialLinks }: HeroProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-2">
+          <dl className="grid grid-cols-2">
             {[
               { label: "Members", end: 26, suffix: "+", delay: 0.3 },
               { label: "Partners", end: 6, suffix: "", padDigits: 2, delay: 0.5 },
@@ -140,7 +147,7 @@ export default function Hero({ socialLinks }: HeroProps) {
                 hasBorderRight={i % 2 === 0}
               />
             ))}
-          </div>
+          </dl>
 
           <div
             className="p-6 sm:p-8 flex justify-end items-end flex-1 motion-safe:animate-[fade-in_0.6s_ease_forwards]"
@@ -150,7 +157,10 @@ export default function Hero({ socialLinks }: HeroProps) {
             }}
           >
             <div className="motion-safe:animate-[bounce-gentle_2s_ease-in-out_infinite]">
-              <BsArrowDownRight className="w-6 h-6 text-gray-400 dark:text-neutral-600" />
+              <BsArrowDownRight
+                className="w-6 h-6 text-gray-400 dark:text-neutral-600"
+                aria-hidden="true"
+              />
             </div>
           </div>
         </div>
@@ -189,15 +199,15 @@ function StatCell({
     <div
       className={`p-6 sm:p-8 border-b border-gray-200 dark:border-neutral-800 ${hasBorderRight ? "border-r" : ""}`}
     >
-      <span className="block text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-2">
+      <dt className="block text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-2">
         {label}
-      </span>
-      <span
+      </dt>
+      <dd
         ref={ref}
         className="block text-3xl sm:text-4xl font-light text-gray-900 dark:text-neutral-100 tabular-nums"
       >
         {initialDisplay}
-      </span>
+      </dd>
     </div>
   );
 }

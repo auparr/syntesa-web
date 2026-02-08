@@ -64,7 +64,7 @@ export default function MissionStatement({ text = DEFAULT_TEXT }: MissionStateme
         </div>
 
         <div className="p-6 sm:p-12 lg:p-16 xl:p-24 min-h-[40vh] flex items-center bg-grid-lines">
-          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-snug tracking-tight max-w-5xl">
+          <blockquote className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-snug tracking-tight max-w-5xl">
             {words.map((word, i) => (
               <span
                 // biome-ignore lint/suspicious/noArrayIndexKey: words repeat, index needed for positioning
@@ -76,7 +76,7 @@ export default function MissionStatement({ text = DEFAULT_TEXT }: MissionStateme
                 {word}
               </span>
             ))}
-          </p>
+          </blockquote>
         </div>
       </div>
     </section>

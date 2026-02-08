@@ -20,9 +20,15 @@ export default function ScrambleText({
   const { ref } = useTextScramble({ text, duration, delay });
 
   return (
-    // biome-ignore lint/suspicious/noExplicitAny: polymorphic ref type
-    <Tag ref={ref as any} id={id} className={className}>
-      {text}
+    <Tag id={id} className={className}>
+      <span className="sr-only">{text}</span>
+      <span
+        // biome-ignore lint/suspicious/noExplicitAny: polymorphic ref type
+        ref={ref as any}
+        aria-hidden="true"
+      >
+        {text}
+      </span>
     </Tag>
   );
 }

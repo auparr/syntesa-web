@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { prefersReducedMotion } from "~/utils/prefersReducedMotion";
 
 type Theme = "light" | "dark";
@@ -9,6 +17,25 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
+
+function ThemeAnnouncement({ theme }: { theme: Theme }) {
+  const [announcement, setAnnouncement] = useState("");
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setAnnouncement(`${theme === "dark" ? "Dark" : "Light"} mode enabled`);
+  }, [theme]);
+
+  return (
+    <output aria-live="polite" aria-atomic="true" className="sr-only">
+      {announcement}
+    </output>
+  );
+}
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
@@ -76,7 +103,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>
+      <ThemeAnnouncement theme={theme} />
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 export function useTheme(): ThemeContextValue {

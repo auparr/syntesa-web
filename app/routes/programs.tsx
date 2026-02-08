@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import type { LinksFunction, MetaFunction } from "react-router";
-import Reveal, { StaggerChildren, StaggerItem } from "~/components/Reveal";
+import { default as Reveal, StaggerList, StaggerListItem } from "~/components/Reveal";
 import { SEO } from "~/components/SEO";
 import { prefersReducedMotion } from "~/utils/prefersReducedMotion";
 import { generateLinks, generateMeta } from "~/utils/seo";
@@ -133,7 +133,10 @@ export default function Programs() {
   return (
     <div className="space-y-2">
       <SEO breadcrumbs={breadcrumbs} faq={faq} courses={courses} />
-      <section className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="programs-hero-heading"
+        className="relative bg-white dark:bg-neutral-950 pt-24 sm:pt-32 border-y border-gray-200 dark:border-neutral-800"
+      >
         <span
           className="absolute top-4 left-4 text-gray-300 dark:text-neutral-700 text-xs font-mono select-none pointer-events-none"
           aria-hidden="true"
@@ -162,7 +165,10 @@ export default function Programs() {
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-7 p-6 sm:p-12 lg:p-16 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800">
-              <h1 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]">
+              <h1
+                id="programs-hero-heading"
+                className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[0.95]"
+              >
                 {headingLines.map((line, i) => (
                   <span key={line} className="block overflow-hidden">
                     <motion.span
@@ -203,7 +209,7 @@ export default function Programs() {
           </div>
 
           <div className="border-t border-gray-200 dark:border-neutral-800">
-            <motion.div
+            <motion.dl
               className="grid grid-cols-2 md:grid-cols-4"
               initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
               animate={{ opacity: 1 }}
@@ -225,15 +231,15 @@ export default function Programs() {
                   key={stat.label}
                   className={`p-6 sm:p-8 ${i % 2 === 0 ? "border-r border-gray-200 dark:border-neutral-800" : ""} ${i < 2 ? "md:border-r" : "md:border-r-0"} ${i < 1 ? "border-b md:border-b-0 border-gray-200 dark:border-neutral-800" : ""}`}
                 >
-                  <span className="block text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 font-mono mb-2">
+                  <dt className="text-xs uppercase tracking-wider text-gray-500 dark:text-neutral-400 font-mono mb-2">
                     {stat.label}
-                  </span>
-                  <span className="block text-3xl sm:text-4xl font-light text-gray-900 dark:text-neutral-100">
+                  </dt>
+                  <dd className="text-3xl sm:text-4xl font-light text-gray-900 dark:text-neutral-100">
                     {stat.value}
-                  </span>
+                  </dd>
                 </div>
               ))}
-            </motion.div>
+            </motion.dl>
           </div>
         </div>
       </section>
@@ -261,7 +267,7 @@ export default function Programs() {
           </div>
 
           {programs.map((program, idx) => (
-            <div
+            <article
               key={program.id}
               className={
                 idx < programs.length - 1 ? "border-b border-gray-200 dark:border-neutral-800" : ""
@@ -273,6 +279,9 @@ export default function Programs() {
                   setExpandedProgram(expandedProgram === program.id ? null : program.id)
                 }
                 className="w-full text-left group"
+                aria-expanded={expandedProgram === program.id}
+                aria-controls={`program-content-${program.id}`}
+                id={`program-button-${program.id}`}
               >
                 <div className="grid grid-cols-1 sm:grid-cols-12 hover:bg-gray-50 dark:hover:bg-neutral-900 transition-colors">
                   <div className="sm:col-span-2 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800 flex items-center">
@@ -281,9 +290,9 @@ export default function Programs() {
                     </span>
                   </div>
                   <div className="sm:col-span-6 p-6 sm:p-8 sm:border-r border-gray-200 dark:border-neutral-800">
-                    <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 group-hover:text-gray-600 dark:group-hover:text-neutral-300 transition-colors">
+                    <span className="block text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 group-hover:text-gray-600 dark:group-hover:text-neutral-300 transition-colors">
                       {program.title}
-                    </h3>
+                    </span>
                     <p className="mt-1 text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
                       {program.subtitle}
                     </p>
@@ -301,6 +310,7 @@ export default function Programs() {
                       animate={{ rotate: expandedProgram === program.id ? 45 : 0 }}
                       transition={{ duration: 0.25 }}
                       className="text-gray-400 dark:text-neutral-600 text-2xl shrink-0 ml-4"
+                      aria-hidden="true"
                     >
                       +
                     </motion.span>
@@ -309,6 +319,9 @@ export default function Programs() {
               </button>
 
               <motion.div
+                id={`program-content-${program.id}`}
+                role="region"
+                aria-labelledby={`program-button-${program.id}`}
                 initial={false}
                 animate={{
                   height: expandedProgram === program.id ? "auto" : 0,
@@ -326,29 +339,32 @@ export default function Programs() {
                     </div>
 
                     <div className="p-6 sm:p-12 border-t lg:border-t-0 border-gray-200 dark:border-neutral-800">
-                      <h4 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-6">
+                      <h3 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-6">
                         Curriculum Topics
-                      </h4>
-                      <div className="space-y-0">
+                      </h3>
+                      <ol className="space-y-0 list-none m-0 p-0">
                         {program.topics.map((topic, i) => (
-                          <div
+                          <li
                             key={topic}
                             className={`flex items-center gap-4 py-3 ${i < program.topics.length - 1 ? "border-b border-gray-100 dark:border-neutral-800/50" : ""}`}
                           >
-                            <span className="text-xs font-mono text-gray-400 dark:text-neutral-600 shrink-0">
+                            <span
+                              className="text-xs font-mono text-gray-400 dark:text-neutral-600 shrink-0 select-none"
+                              aria-hidden="true"
+                            >
                               {(i + 1).toString().padStart(2, "0")}
                             </span>
                             <span className="text-sm text-gray-700 dark:text-neutral-300">
                               {topic}
                             </span>
-                          </div>
+                          </li>
                         ))}
-                      </div>
+                      </ol>
                     </div>
                   </div>
                 </div>
               </motion.div>
-            </div>
+            </article>
           ))}
         </div>
       </section>
@@ -385,41 +401,56 @@ export default function Programs() {
             </div>
           </div>
 
-          <div className="hidden sm:grid grid-cols-12 border-b border-gray-200 dark:border-neutral-800 text-xs font-mono uppercase tracking-wider text-gray-400 dark:text-neutral-600">
-            <div className="col-span-3 p-4 px-6 border-r border-gray-200 dark:border-neutral-800">
-              Day
-            </div>
-            <div className="col-span-6 p-4 px-6 border-r border-gray-200 dark:border-neutral-800">
-              Activity
-            </div>
-            <div className="col-span-3 p-4 px-6">Format</div>
-          </div>
-
-          <StaggerChildren stagger={0.04}>
-            {schedule.map((slot, i) => (
-              <StaggerItem key={`${slot.day}-${slot.activity}`}>
-                <div
-                  className={`grid grid-cols-1 sm:grid-cols-12 ${i < schedule.length - 1 ? "border-b border-gray-200 dark:border-neutral-800" : ""}`}
+          <table className="w-full border-collapse">
+            <caption className="sr-only">Weekly session schedule</caption>
+            <thead className="hidden sm:table-header-group text-xs font-mono uppercase tracking-wider text-gray-400 dark:text-neutral-600 border-b border-gray-200 dark:border-neutral-800">
+              <tr>
+                <th
+                  scope="col"
+                  className="text-left p-4 px-6 w-1/4 border-r border-gray-200 dark:border-neutral-800 font-normal"
                 >
-                  <div className="sm:col-span-3 p-6 sm:border-r border-gray-200 dark:border-neutral-800">
+                  Day
+                </th>
+                <th
+                  scope="col"
+                  className="text-left p-4 px-6 w-1/2 border-r border-gray-200 dark:border-neutral-800 font-normal"
+                >
+                  Activity
+                </th>
+                <th scope="col" className="text-left p-4 px-6 w-1/4 font-normal">
+                  Format
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {schedule.map((slot, i) => (
+                <tr
+                  key={`${slot.day}-${slot.activity}`}
+                  className={
+                    i < schedule.length - 1
+                      ? "border-b border-gray-200 dark:border-neutral-800"
+                      : ""
+                  }
+                >
+                  <td className="p-6 sm:border-r border-gray-200 dark:border-neutral-800 align-top">
                     <span className="font-medium text-gray-900 dark:text-neutral-100">
                       {slot.day}
                     </span>
-                  </div>
-                  <div className="sm:col-span-6 p-6 sm:border-r border-gray-200 dark:border-neutral-800">
+                  </td>
+                  <td className="p-6 sm:border-r border-gray-200 dark:border-neutral-800 align-top">
                     <span className="text-sm text-gray-600 dark:text-neutral-400">
                       {slot.activity}
                     </span>
-                  </div>
-                  <div className="sm:col-span-3 p-6">
+                  </td>
+                  <td className="p-6 align-top">
                     <span className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400">
                       {slot.note}
                     </span>
-                  </div>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
           <div className="border-t border-gray-200 dark:border-neutral-800 p-6 sm:px-6">
             <p className="text-xs text-gray-400 dark:text-neutral-600 font-mono uppercase tracking-wider">
@@ -460,12 +491,9 @@ export default function Programs() {
             </Reveal>
           </div>
 
-          <StaggerChildren
-            stagger={0.05}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <StaggerList stagger={0.05} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {certifications.map((cert, i) => (
-              <StaggerItem key={cert.name}>
+              <StaggerListItem key={cert.name}>
                 <div
                   className={`p-6 sm:p-8 border-b sm:border-b-0 ${i % 2 === 0 ? "sm:border-r" : ""} ${i < 2 ? "sm:border-b" : ""} ${i % 3 !== 2 ? "lg:border-r" : "lg:border-r-0"} ${i < 3 ? "lg:border-b" : "lg:border-b-0"} border-gray-200 dark:border-neutral-800 min-h-35 flex flex-col justify-between`}
                 >
@@ -479,23 +507,29 @@ export default function Programs() {
                     {cert.track}
                   </span>
                 </div>
-              </StaggerItem>
+              </StaggerListItem>
             ))}
-          </StaggerChildren>
+          </StaggerList>
         </div>
       </section>
 
-      <section className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800">
+      <section
+        aria-labelledby="programs-cta-heading"
+        className="bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800"
+      >
         <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
           <div className="p-6 sm:p-12 lg:p-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
             <Reveal>
               <div>
-                <h2 className="text-2xl sm:text-3xl font-medium text-gray-900 dark:text-neutral-100">
+                <h2
+                  id="programs-cta-heading"
+                  className="text-2xl sm:text-3xl font-medium text-gray-900 dark:text-neutral-100"
+                >
                   Ready to learn?
                 </h2>
                 <p className="mt-2 text-gray-500 dark:text-neutral-400">
-                  Applications for the 2026 batch are closed. Join our Discord to stay updated on
-                  future openings.
+                  Applications for the <time dateTime="2026">2026 batch</time> are closed. Join our
+                  Discord to stay updated on future openings.
                 </p>
               </div>
             </Reveal>
@@ -507,7 +541,10 @@ export default function Programs() {
                 className="group inline-flex items-center gap-3 px-8 py-3 border border-gray-900 dark:border-apple-blue-500 bg-gray-900 dark:bg-apple-blue-500 text-white dark:text-white text-sm font-medium hover:bg-transparent hover:text-gray-900 dark:hover:bg-transparent dark:hover:text-apple-blue-400 transition-colors uppercase tracking-wider shrink-0"
               >
                 Join Discord
-                <BsArrowRight className="transition-transform group-hover:translate-x-1" />
+                <BsArrowRight
+                  className="transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </a>
             </Reveal>
           </div>

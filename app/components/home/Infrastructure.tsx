@@ -16,7 +16,7 @@ interface InfrastructureProps {
 }
 
 export default function Infrastructure({ specs }: InfrastructureProps) {
-  const gridRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDListElement>(null);
   const isGridInView = useInView(gridRef, { once: true, amount: 0.15 });
 
   return (
@@ -42,7 +42,7 @@ export default function Infrastructure({ specs }: InfrastructureProps) {
           <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
               <ScrambleText
-                as="h2"
+                as="p"
                 text="Infrastructure"
                 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
               />
@@ -56,17 +56,17 @@ export default function Infrastructure({ specs }: InfrastructureProps) {
           </div>
           <div className="lg:col-span-8 p-6 sm:p-12">
             <Reveal delay={0.1}>
-              <h3
+              <h2
                 id="infrastructure-heading"
                 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
               >
                 Resources powering our research.
-              </h3>
+              </h2>
             </Reveal>
           </div>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-3">
+        <dl ref={gridRef} className="grid grid-cols-2 lg:grid-cols-3">
           {specs.map((spec, index) => (
             <SpecCell
               key={spec.label}
@@ -76,7 +76,7 @@ export default function Infrastructure({ specs }: InfrastructureProps) {
               isVisible={isGridInView}
             />
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );
@@ -116,17 +116,17 @@ function SpecCell({
       {spec.icon && (
         <spec.icon className="size-5 text-gray-400 dark:text-neutral-500 mb-3" aria-hidden="true" />
       )}
-      <span className="block text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-3">
+      <dt className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-3">
         {spec.label}
-      </span>
-      <span className="block text-2xl sm:text-3xl font-light text-gray-900 dark:text-neutral-100 leading-tight">
+      </dt>
+      <dd className="text-2xl sm:text-3xl font-light text-gray-900 dark:text-neutral-100 leading-tight">
         {spec.value}
-      </span>
-      {spec.detail && (
-        <span className="block text-sm text-gray-400 dark:text-neutral-500 mt-2">
-          {spec.detail}
-        </span>
-      )}
+        {spec.detail && (
+          <span className="block text-sm text-gray-400 dark:text-neutral-500 mt-2">
+            {spec.detail}
+          </span>
+        )}
+      </dd>
     </div>
   );
 }

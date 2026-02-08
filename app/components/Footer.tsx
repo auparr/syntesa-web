@@ -55,9 +55,10 @@ export default function Footer({ socialLinks }: FooterProps) {
               className={`mt-12 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isLeftInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
               style={{ transitionDelay: isLeftInView ? "200ms" : "0ms" }}
             >
-              <p className="text-xs font-mono text-gray-400 dark:text-neutral-600 uppercase tracking-wider">
-                &copy; {new Date().getFullYear()} SE Lab UNESA.
-              </p>
+              <small className="text-xs font-mono text-gray-400 dark:text-neutral-600 uppercase tracking-wider">
+                &copy; {new Date().getFullYear()} <abbr title="Software Engineering">SE</abbr> Lab{" "}
+                <abbr title="Universitas Negeri Surabaya">UNESA</abbr>.
+              </small>
             </div>
           </div>
 
@@ -66,17 +67,20 @@ export default function Footer({ socialLinks }: FooterProps) {
               <div
                 className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
               >
-                <h3 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
+                <h2 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
                   Location
-                </h3>
+                </h2>
               </div>
               <div
                 className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
                 style={{ transitionDelay: isRightInView ? "100ms" : "0ms" }}
               >
                 <div className="space-y-6">
-                  <div className="flex items-start gap-3">
-                    <IoLocationSharp className="w-5 h-5 text-gray-900 dark:text-neutral-100 shrink-0 mt-0.5" />
+                  <address className="flex items-start gap-3 not-italic">
+                    <IoLocationSharp
+                      className="w-5 h-5 text-gray-900 dark:text-neutral-100 shrink-0 mt-0.5"
+                      aria-hidden="true"
+                    />
                     <div className="text-sm text-gray-600 dark:text-neutral-300">
                       <p className="font-medium text-gray-900 dark:text-neutral-100">
                         Software Engineering Lab
@@ -94,7 +98,7 @@ export default function Footer({ socialLinks }: FooterProps) {
                         Get Directions &rarr;
                       </a>
                     </div>
-                  </div>
+                  </address>
                 </div>
               </div>
             </div>
@@ -104,41 +108,47 @@ export default function Footer({ socialLinks }: FooterProps) {
                 className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
                 style={{ transitionDelay: isRightInView ? "60ms" : "0ms" }}
               >
-                <h3 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
+                <h2 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
                   Connect
-                </h3>
+                </h2>
               </div>
               <div
                 className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
                 style={{ transitionDelay: isRightInView ? "160ms" : "0ms" }}
               >
                 <div className="space-y-6">
-                  <a
-                    href="mailto:contact@syntesa.net"
-                    className="flex items-center gap-3 text-sm text-gray-600 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-apple-blue-400 transition-colors"
-                  >
-                    <HiMail className="w-5 h-5" />
-                    <span>contact@syntesa.net</span>
-                  </a>
+                  <address className="not-italic">
+                    <a
+                      href="mailto:contact@syntesa.net"
+                      className="flex items-center gap-3 text-sm text-gray-600 dark:text-neutral-300 hover:text-gray-900 dark:hover:text-apple-blue-400 transition-colors"
+                    >
+                      <HiMail className="w-5 h-5" aria-hidden="true" />
+                      <span>contact@syntesa.net</span>
+                    </a>
+                  </address>
 
-                  <div className="pt-6 border-t border-gray-200 dark:border-neutral-800">
-                    <div className="flex flex-wrap gap-4">
+                  <nav
+                    aria-label="Social links"
+                    className="pt-6 border-t border-gray-200 dark:border-neutral-800"
+                  >
+                    <ul className="flex flex-wrap gap-4">
                       {socialLinks.map((item, i) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`text-gray-500 hover:text-gray-900 dark:text-neutral-400 dark:hover:text-apple-blue-400 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
-                          style={{ transitionDelay: isRightInView ? `${200 + i * 50}ms` : "0ms" }}
-                          title={item.name}
-                        >
-                          <item.icon className="w-5 h-5" />
-                          <span className="sr-only">{item.name}</span>
-                        </a>
+                        <li key={item.name}>
+                          <a
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`block text-gray-500 hover:text-gray-900 dark:text-neutral-400 dark:hover:text-apple-blue-400 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
+                            style={{ transitionDelay: isRightInView ? `${200 + i * 50}ms` : "0ms" }}
+                            title={item.name}
+                          >
+                            <item.icon className="w-5 h-5" aria-hidden="true" />
+                            <span className="sr-only">{item.name}</span>
+                          </a>
+                        </li>
                       ))}
-                    </div>
-                  </div>
+                    </ul>
+                  </nav>
                 </div>
               </div>
             </div>

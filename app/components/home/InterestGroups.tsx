@@ -47,7 +47,7 @@ export default function InterestGroups(props: InterestGroupsProps) {
           <div className="lg:col-span-4 p-6 sm:p-12 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-neutral-800 bg-hatching relative">
             <Reveal>
               <ScrambleText
-                as="h2"
+                as="p"
                 text="Divisions"
                 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
               />
@@ -61,12 +61,12 @@ export default function InterestGroups(props: InterestGroupsProps) {
           </div>
           <div className="lg:col-span-8 p-6 sm:p-12">
             <Reveal delay={0.1}>
-              <h3
+              <h2
                 id="divisions-heading"
                 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
               >
                 Specialized research groups focused on core pillars of modern computing.
-              </h3>
+              </h2>
             </Reveal>
           </div>
         </div>
@@ -137,8 +137,7 @@ function GroupRow({
         transitionDelay: isVisible ? `${index * 150}ms` : "0ms",
       }}
     >
-      {/* biome-ignore lint: decorative 3D tilt effect, not interactive */}
-      <div
+      <article
         ref={tiltRef}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
@@ -157,9 +156,9 @@ function GroupRow({
 
         <div className="lg:col-span-7 p-6 sm:p-8 lg:border-r border-gray-200 dark:border-neutral-800">
           <div className="flex items-center gap-4 mb-4">
-            <h4 className="text-2xl font-medium text-gray-900 dark:text-neutral-100">
+            <h3 className="text-2xl font-medium text-gray-900 dark:text-neutral-100">
               {club.name}
-            </h4>
+            </h3>
           </div>
           <p className="text-lg text-gray-600 dark:text-neutral-400 font-light leading-relaxed max-w-2xl">
             {club.description}
@@ -178,7 +177,10 @@ function GroupRow({
                   transitionDelay: isVisible ? `${300 + index * 150 + i * 60}ms` : "0ms",
                 }}
               >
-                <span className="w-1 h-1 bg-gray-400 dark:bg-neutral-600 rounded-full" />
+                <span
+                  className="w-1 h-1 bg-gray-400 dark:bg-neutral-600 rounded-full"
+                  aria-hidden="true"
+                />
                 {detail}
               </li>
             ))}
@@ -189,9 +191,12 @@ function GroupRow({
           <span className="lg:hidden font-mono text-sm text-gray-400 dark:text-neutral-600">
             {(index + 1).toString().padStart(2, "0")}
           </span>
-          <BsArrowRight className="w-6 h-6 text-gray-300 dark:text-neutral-600 group-hover:text-gray-900 dark:group-hover:text-apple-blue-400 transform group-hover:translate-x-2 transition-all duration-300" />
+          <BsArrowRight
+            className="w-6 h-6 text-gray-300 dark:text-neutral-600 group-hover:text-gray-900 dark:group-hover:text-apple-blue-400 transform group-hover:translate-x-2 transition-all duration-300"
+            aria-hidden="true"
+          />
         </div>
-      </div>
+      </article>
     </div>
   );
 }

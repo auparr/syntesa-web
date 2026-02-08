@@ -115,13 +115,13 @@ function Document({
       </head>
       <body className="h-full">
         {showLoader && (
-          <div id="__loader" className="loader-screen">
-            <div className="loader-ripple">
+          <output id="__loader" className="loader-screen" aria-label="Loading">
+            <div className="loader-ripple" aria-hidden="true">
               <span />
               <span />
               <span />
             </div>
-          </div>
+          </output>
         )}
         {children}
         <ScrollRestoration />

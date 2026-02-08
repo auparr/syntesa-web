@@ -59,7 +59,7 @@ export default function JoinCard() {
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHeaderInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
             >
               <ScrambleText
-                as="h2"
+                as="p"
                 text="Join Us"
                 className="text-sm font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400"
               />
@@ -76,12 +76,12 @@ export default function JoinCard() {
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isHeaderInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
               style={{ transitionDelay: isHeaderInView ? "100ms" : "0ms" }}
             >
-              <h3
+              <h2
                 id="join-heading"
                 className="text-3xl sm:text-4xl font-medium text-gray-900 dark:text-neutral-100 leading-tight"
               >
                 Begin your journey in software innovation.
-              </h3>
+              </h2>
             </div>
           </div>
         </div>
@@ -98,27 +98,30 @@ export default function JoinCard() {
                 </p>
               </div>
 
-              <div className="space-y-0">
+              <ul className="space-y-0">
                 {benefits.map((benefit, i) => (
-                  <div
+                  <li
                     key={benefit.title}
                     className={`flex items-start gap-4 py-5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isLeftInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"} ${i < benefits.length - 1 ? "border-b border-gray-100 dark:border-neutral-800/50" : ""}`}
                     style={{ transitionDelay: isLeftInView ? `${(i + 1) * 80}ms` : "0ms" }}
                   >
-                    <span className="font-mono text-xs text-gray-400 dark:text-neutral-600 mt-1">
+                    <span
+                      className="font-mono text-xs text-gray-400 dark:text-neutral-600 mt-1"
+                      aria-hidden="true"
+                    >
                       {(i + 1).toString().padStart(2, "0")}
                     </span>
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-neutral-100">
+                      <h3 className="font-medium text-gray-900 dark:text-neutral-100">
                         {benefit.title}
-                      </h4>
+                      </h3>
                       <p className="text-sm text-gray-500 dark:text-neutral-400 mt-1">
                         {benefit.description}
                       </p>
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
 
             <div
@@ -128,9 +131,9 @@ export default function JoinCard() {
               <div>
                 <p className="text-sm text-gray-500 dark:text-neutral-400">
                   Applications for the{" "}
-                  <span className="text-gray-900 dark:text-neutral-100 font-medium">
+                  <time dateTime="2026" className="text-gray-900 dark:text-neutral-100 font-medium">
                     2026 batch
-                  </span>{" "}
+                  </time>{" "}
                   are now closed.
                 </p>
                 <p className="text-xs text-gray-400 dark:text-neutral-600 mt-1 font-mono uppercase tracking-wider">
@@ -146,7 +149,10 @@ export default function JoinCard() {
                 delay={0.3}
               >
                 Join Discord
-                <BsArrowRight className="transition-transform group-hover:translate-x-1" />
+                <BsArrowRight
+                  className="transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </BorderDraw>
             </div>
           </div>
@@ -155,9 +161,9 @@ export default function JoinCard() {
             <div
               className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isRightInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
             >
-              <h4 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-gray-500 dark:text-neutral-400 mb-8">
                 Frequently Asked Questions
-              </h4>
+              </h3>
             </div>
 
             <div className="space-y-0">
@@ -202,6 +208,9 @@ function FAQItem({
         type="button"
         onClick={onToggle}
         className="w-full py-5 text-left flex justify-between items-center gap-4 group"
+        aria-expanded={isExpanded}
+        aria-controls={`faq-content-${faq.question.replace(/\s+/g, "-").toLowerCase()}`}
+        id={`faq-button-${faq.question.replace(/\s+/g, "-").toLowerCase()}`}
       >
         <span className="font-medium text-gray-900 dark:text-neutral-100 group-hover:text-gray-600 dark:group-hover:text-neutral-300 transition-colors">
           {faq.question}
@@ -210,11 +219,15 @@ function FAQItem({
           animate={{ rotate: isExpanded ? 45 : 0 }}
           transition={{ duration: 0.25 }}
           className="text-gray-400 dark:text-neutral-600 text-xl shrink-0"
+          aria-hidden="true"
         >
           +
         </motion.span>
       </button>
       <motion.div
+        id={`faq-content-${faq.question.replace(/\s+/g, "-").toLowerCase()}`}
+        role="region"
+        aria-labelledby={`faq-button-${faq.question.replace(/\s+/g, "-").toLowerCase()}`}
         initial={false}
         animate={{
           height: isExpanded ? "auto" : 0,

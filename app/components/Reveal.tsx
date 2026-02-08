@@ -118,7 +118,7 @@ export function LineReveal({ className = "", delay = 0, duration = 0.8 }: LineRe
   const delayMs = delay * 1000;
 
   return (
-    <div ref={ref} className={`overflow-hidden ${className}`}>
+    <div ref={ref} className={`overflow-hidden ${className}`} aria-hidden="true">
       <div
         className="h-px w-full bg-gray-200 dark:bg-neutral-700 origin-left"
         style={{
@@ -207,5 +207,85 @@ export function StaggerItem({
     >
       {children}
     </motion.div>
+  );
+}
+
+interface StaggerListProps {
+  children: ReactNode;
+  stagger?: number;
+  className?: string;
+  threshold?: number;
+  as?: "ul" | "ol";
+}
+
+export function StaggerList({
+  children,
+  stagger = 0.1,
+  className,
+  threshold = 0.1,
+  as = "ul",
+}: StaggerListProps) {
+  const Component = as === "ul" ? motion.ul : motion.ol;
+  const ref = useRef<HTMLUListElement | HTMLOListElement>(null);
+  const isInView = useInView(ref, { once: true, amount: threshold });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView || prefersReducedMotion) {
+      controls.start("visible");
+    }
+  }, [isInView, controls]);
+
+  return (
+    <Component
+      // @ts-expect-error: motion component ref types are complex
+      ref={ref}
+      initial={prefersReducedMotion ? "visible" : "hidden"}
+      animate={controls}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: { delayChildren: prefersReducedMotion ? 0 : fmStagger(stagger) },
+        },
+      }}
+      className={className}
+    >
+      {children}
+    </Component>
+  );
+}
+
+interface StaggerListItemProps extends StaggerItemProps {
+  as?: "li" | "div";
+}
+
+export function StaggerListItem({
+  children,
+  direction = "up",
+  distance = 24,
+  duration = 0.5,
+  className,
+  clipReveal = false,
+  as = "li",
+}: StaggerListItemProps) {
+  const Component = as === "li" ? motion.li : motion.div;
+
+  return (
+    <Component
+      variants={{
+        hidden: prefersReducedMotion
+          ? getVisibleVariant(clipReveal)
+          : getHiddenVariant(direction, distance, clipReveal),
+        visible: getVisibleVariant(clipReveal),
+      }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : duration,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className={className}
+      style={clipReveal ? { overflow: "hidden" } : undefined}
+    >
+      {children}
+    </Component>
   );
 }
