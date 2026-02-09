@@ -32,7 +32,7 @@ export default function Hero({ socialLinks }: HeroProps) {
               className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[1.15]"
             >
               {headingLines.map((line, i) => (
-                <span key={line} className="block overflow-hidden">
+                <span key={line} className="block overflow-hidden pb-[0.15em]">
                   <span
                     className={`block motion-safe:animate-[slide-up_0.9s_cubic-bezier(0.33,1,0.68,1)_forwards] ${i === headingLines.length - 1 ? "text-gray-400 dark:text-neutral-600" : ""}`}
                     style={{

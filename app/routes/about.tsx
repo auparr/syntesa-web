@@ -110,7 +110,7 @@ export default function About() {
                 className="text-5xl sm:text-6xl md:text-7xl xl:text-8xl font-medium tracking-tight text-gray-900 dark:text-neutral-100 leading-[1.15]"
               >
                 {headingLines.map((line, i) => (
-                  <span key={line} className="block overflow-hidden">
+                  <span key={line} className="block overflow-hidden pb-[0.15em]">
                     <motion.span
                       className={`block ${i === headingLines.length - 1 ? "text-gray-400 dark:text-neutral-600" : ""}`}
                       initial={{ y: prefersReducedMotion ? "0%" : "110%" }}
