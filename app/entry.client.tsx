@@ -4,7 +4,7 @@ import { HydratedRouter } from "react-router/dom";
 
 startTransition(() => {
   hydrateRoot(
-    document,
+    document.documentElement,
     <StrictMode>
       <HydratedRouter />
     </StrictMode>,
