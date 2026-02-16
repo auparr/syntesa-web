@@ -20,6 +20,12 @@ export const SITE_META = {
     "research",
     "computer science",
     "Surabaya",
+    "Lab RPL",
+    "Lab Rekayasa Perangkat Lunak",
+    "Lab RPL Unesa",
+    "Lab Rekayasa Perangkat Lunak Unesa",
+    "Lab RPL Universitas Negeri Surabaya",
+    "Lab Rekayasa Perangkat Lunak Universitas Negeri Surabaya",
   ],
   themeColor: {
     light: "#ffffff",
