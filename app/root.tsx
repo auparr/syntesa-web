@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { LinksFunction, MetaFunction } from "react-router";
 import {
   isRouteErrorResponse,
@@ -81,15 +82,13 @@ const jsonLd = JSON.stringify([generateOrganizationJsonLd(), generateWebSiteJson
 
 function Document({
   children,
-  title,
   showLoader = true,
 }: {
   children: React.ReactNode;
-  title?: string;
   showLoader?: boolean;
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -105,7 +104,6 @@ function Document({
           media="(prefers-color-scheme: dark)"
         />
         <meta name="color-scheme" content="light dark" />
-        {title && <title>{title}</title>}
         <Meta />
         <Links />
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: inline theme script prevents FOUC */}
@@ -113,7 +111,7 @@ function Document({
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data for SEO */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       </head>
-      <body className="h-full">
+      <body className="h-full" suppressHydrationWarning>
         {showLoader && (
           <output id="__loader" className="loader-screen" aria-label="Loading">
             <div className="loader-ripple" aria-hidden="true">
@@ -135,9 +133,25 @@ function Document({
   );
 }
 
+function useDismissLoader() {
+  useEffect(() => {
+    const loader = document.getElementById("__loader");
+    if (!loader) return;
+    document.documentElement.style.overflow = "";
+    loader.classList.add("loader-exit");
+    const tid = setTimeout(() => loader.remove(), 700);
+    loader.addEventListener("transitionend", () => {
+      clearTimeout(tid);
+      loader.remove();
+    });
+  }, []);
+}
+
 export default function App() {
+  useDismissLoader();
+
   return (
-    <Document title={SITE_META.title}>
+    <Document>
       <ThemeProvider>
         <Outlet />
       </ThemeProvider>
@@ -147,10 +161,8 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  const title = `Error - ${SITE_META.title}`;
-
   return (
-    <Document title={title} showLoader={false}>
+    <Document showLoader={false}>
       <ThemeProvider>
         <div className="min-h-screen bg-white dark:bg-neutral-950">
           <NotFound

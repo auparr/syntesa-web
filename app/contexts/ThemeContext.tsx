@@ -37,15 +37,14 @@ function ThemeAnnouncement({ theme }: { theme: Theme }) {
   );
 }
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
+function getClientTheme(): Theme {
   const stored = localStorage.getItem("theme");
   if (stored === "dark" || stored === "light") return stored;
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [theme, setThemeState] = useState<Theme>("light");
 
   const applyTheme = useCallback((next: Theme) => {
     setThemeState(next);
@@ -89,6 +88,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     },
     [theme, applyTheme],
   );
+
+  useEffect(() => {
+    const clientTheme = getClientTheme();
+    setThemeState(clientTheme);
+    document.documentElement.classList.toggle("dark", clientTheme === "dark");
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
