@@ -128,8 +128,6 @@ export default function Seniors({ seniors }: SeniorsProps) {
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           onPointerMove={handlePointerMove}
-          onTouchStart={() => setIsHovered(true)}
-          onTouchEnd={() => setIsHovered(false)}
         >
           <div
             ref={trackRef}
