@@ -32,7 +32,7 @@ export default function MarqueeDivider({
           style={{ contentVisibility: "auto", containIntrinsicSize: "0 60px" }}
         >
           <div
-            className="whitespace-nowrap font-mono text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-wider select-none motion-safe:animate-[marquee_var(--marquee-duration)_linear_infinite_reverse] text-stroke"
+            className="whitespace-nowrap font-mono text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-wider select-none motion-safe:animate-[marquee-scroll_var(--marquee-duration)_linear_infinite_reverse] text-stroke"
             style={
               {
                 width: "fit-content",

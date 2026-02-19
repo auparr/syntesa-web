@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Reveal from "~/components/Reveal";
 import ScrambleText from "~/components/ScrambleText";
 import GradientOrb from "~/components/ui/GradientOrb";
+import { useInView } from "~/hooks/useInView";
 
 export interface TypeSenior {
   readonly name: string;
@@ -17,52 +18,63 @@ interface SeniorsProps {
 }
 
 export default function Seniors({ seniors }: SeniorsProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isMarqueeInView = useInView(marqueeRef, { once: true, amount: 0.05 });
+
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
 
   const safeSeniors = Array.isArray(seniors) ? seniors : [];
-
-  useEffect(() => {
-    let animationFrameId: number;
-    const scrollNode = scrollRef.current;
-
-    const autoScroll = () => {
-      if (scrollNode && !isHovered && !isDragging && safeSeniors.length > 0) {
-        scrollNode.scrollLeft += 1;
-        if (scrollNode.scrollLeft >= scrollNode.scrollWidth / 2) {
-          scrollNode.scrollLeft = 0;
-        }
-      }
-      animationFrameId = requestAnimationFrame(autoScroll);
-    };
-
-    animationFrameId = requestAnimationFrame(autoScroll);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isHovered, isDragging, safeSeniors.length]);
+  const DURATION = 60;
+  const isPaused = isHovered || isDragging || !isMarqueeInView;
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
-    if (scrollRef.current) {
-      setStartX(e.pageX - scrollRef.current.offsetLeft);
-      setScrollLeft(scrollRef.current.scrollLeft);
+    setStartX(e.clientX);
+    if (trackRef.current) {
+      const transform = getComputedStyle(trackRef.current).transform;
+      const matrix = new DOMMatrix(transform);
+      setDragOffset(matrix.m41);
+      trackRef.current.style.animation = "none";
+      trackRef.current.style.transform = `translateX(${matrix.m41}px)`;
     }
   };
 
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => {
+  const resumeFromPosition = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const matrix = new DOMMatrix(getComputedStyle(track).transform);
+    const currentX = matrix.m41;
+    const halfWidth = track.scrollWidth / 2;
+    const normX = ((-currentX % halfWidth) + halfWidth) % halfWidth;
+    const progress = normX / halfWidth;
+    const offset = progress * DURATION;
+    track.style.transform = "";
+    track.style.animation = "";
+    track.style.animationDelay = `-${offset}s`;
+  };
+
+  const handleMouseUp = () => {
     setIsDragging(false);
+    resumeFromPosition();
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      resumeFromPosition();
+    }
     setIsHovered(false);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return;
+    if (!isDragging || !trackRef.current) return;
     e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
+    const walk = (e.clientX - startX) * 2;
+    trackRef.current.style.transform = `translateX(${dragOffset + walk}px)`;
   };
 
   return (
@@ -99,13 +111,14 @@ export default function Seniors({ seniors }: SeniorsProps) {
             </Reveal>
           </div>
         </div>
-
-        <div
-          ref={scrollRef}
+        <section
+          ref={marqueeRef}
           role="marquee"
-          className={`flex overflow-x-auto w-full bg-white dark:bg-neutral-950 no-scrollbar border-b border-gray-200 dark:border-neutral-800 ${
+          aria-label="Interactive internships marquee"
+          className={`overflow-hidden relative transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] border-b border-gray-200 dark:border-neutral-800 ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
-          } mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]`}
+          } mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] ${isMarqueeInView ? "opacity-100" : "opacity-0"}`}
+          style={{ contentVisibility: "auto", containIntrinsicSize: "0 200px" }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleMouseDown}
@@ -113,18 +126,28 @@ export default function Seniors({ seniors }: SeniorsProps) {
           onMouseMove={handleMouseMove}
           onTouchStart={() => setIsHovered(true)}
           onTouchEnd={() => setIsHovered(false)}
-          style={{ scrollBehavior: "auto" }}
         >
-          <div className="flex w-max">
-            {safeSeniors.length > 0 ? (
-              [...safeSeniors, ...safeSeniors].map((senior, index) => (
-                <SeniorCell key={`${senior.name}-${index}`} senior={senior} />
-              ))
-            ) : (
-              <div className="p-6 text-gray-500">Loading data...</div>
-            )}
+          <div
+            ref={trackRef}
+            className="flex motion-safe:animate-[marquee-scroll_60s_linear_infinite]"
+            style={{
+              width: "fit-content",
+              animationPlayState: isPaused ? "paused" : "running",
+            }}
+          >
+            {[0, 1].map((half) => (
+              <div key={half} className="flex shrink-0" aria-hidden={half === 1}>
+                {safeSeniors.length > 0 ? (
+                  safeSeniors.map((senior) => (
+                    <SeniorCell key={`senior-${half}-${senior.name}`} senior={senior} />
+                  ))
+                ) : (
+                  <div className="p-6 text-gray-500">Loading data...</div>
+                )}
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );
