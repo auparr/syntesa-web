@@ -1,8 +1,7 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Reveal from "~/components/Reveal";
 import ScrambleText from "~/components/ScrambleText";
 import GradientOrb from "~/components/ui/GradientOrb";
-import { useInView } from "~/hooks/useInView";
 
 export interface TypeSenior {
   readonly name: string;
@@ -18,13 +17,58 @@ interface SeniorsProps {
 }
 
 export default function Seniors({ seniors }: SeniorsProps) {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isGridInView = useInView(gridRef, { once: true, amount: 0.15 });
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const safeSeniors = Array.isArray(seniors) ? seniors : [];
+
+  useEffect(() => {
+    let animationFrameId: number;
+    const scrollNode = scrollRef.current;
+
+    const autoScroll = () => {
+      if (scrollNode && !isHovered && !isDragging && safeSeniors.length > 0) {
+        scrollNode.scrollLeft += 1;
+        if (scrollNode.scrollLeft >= scrollNode.scrollWidth / 2) {
+          scrollNode.scrollLeft = 0;
+        }
+      }
+      animationFrameId = requestAnimationFrame(autoScroll);
+    };
+
+    animationFrameId = requestAnimationFrame(autoScroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isHovered, isDragging, safeSeniors.length]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    if (scrollRef.current) {
+      setStartX(e.pageX - scrollRef.current.offsetLeft);
+      setScrollLeft(scrollRef.current.scrollLeft);
+    }
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setIsHovered(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   return (
     <section
       aria-labelledby="placements-heading"
-      className="relative bg-white dark:bg-neutral-950 border-y border-gray-200 dark:border-neutral-800 overflow-hidden"
+      className="relative bg-white dark:bg-neutral-950 border-t border-gray-200 dark:border-neutral-800 overflow-hidden"
     >
       <GradientOrb color="green" position="top-right" size="md" />
       <div className="max-w-480 mx-auto w-full sm:border-x border-gray-200 dark:border-neutral-800">
@@ -56,68 +100,71 @@ export default function Seniors({ seniors }: SeniorsProps) {
           </div>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-2">
-          {seniors.map((senior, index) => (
-            <SeniorCell
-              key={senior.name}
-              senior={senior}
-              index={index}
-              total={seniors.length}
-              isVisible={isGridInView}
-            />
-          ))}
+        <div
+          ref={scrollRef}
+          role="marquee"
+          className={`flex overflow-x-auto w-full bg-white dark:bg-neutral-950 no-scrollbar border-b border-gray-200 dark:border-neutral-800 ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          } mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+          style={{ scrollBehavior: "auto" }}
+        >
+          <div className="flex w-max">
+            {safeSeniors.length > 0 ? (
+              [...safeSeniors, ...safeSeniors].map((senior, index) => (
+                <SeniorCell key={`${senior.name}-${index}`} senior={senior} />
+              ))
+            ) : (
+              <div className="p-6 text-gray-500">Loading data...</div>
+            )}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function SeniorCell({
-  senior,
-  index,
-  total,
-  isVisible,
-}: {
-  senior: TypeSenior;
-  index: number;
-  total: number;
-  isVisible: boolean;
-}) {
-  const isLeftCol = index % 2 === 0;
-  const isLast = index === total - 1;
-  const isLastRow = index >= total - 2;
-
+function SeniorCell({ senior }: { senior: TypeSenior }) {
   return (
     <article
       className={[
         "group p-6 sm:p-10 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
+        "w-75 sm:w-87.5 shrink-0",
         "hover:bg-gray-50 dark:hover:bg-neutral-900",
-        !isLast ? "border-b border-gray-200 dark:border-neutral-800" : "",
-        isLeftCol ? "lg:border-r lg:border-gray-200 dark:lg:border-neutral-800" : "",
-        isLastRow ? "lg:border-b-0" : "",
+        "border-r border-gray-200 dark:border-neutral-800",
+        "select-none",
       ]
         .filter(Boolean)
         .join(" ")}
-      style={{ transitionDelay: isVisible ? `${index * 80}ms` : "0ms" }}
     >
-      <figure className="mb-6">
+      <figure className="mb-6 pointer-events-none">
         <img
           src={senior.logo}
           alt={senior.company}
           className="h-10 w-10 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
           loading="lazy"
+          draggable="false"
         />
       </figure>
 
-      <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 leading-tight">
+      <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-neutral-100 leading-tight truncate pointer-events-none">
         {senior.company}
       </h3>
 
-      <p className="text-base text-gray-500 dark:text-neutral-400 mt-2">{senior.name}</p>
-      <p className="text-sm text-gray-400 dark:text-neutral-500 mt-0.5">{senior.role}</p>
+      <p className="text-base text-gray-500 dark:text-neutral-400 mt-2 truncate pointer-events-none">
+        {senior.name}
+      </p>
+      <p className="text-sm text-gray-400 dark:text-neutral-500 mt-0.5 truncate pointer-events-none">
+        {senior.role}
+      </p>
 
-      <div className="flex items-center gap-3 mt-4">
+      <div className="flex items-center gap-3 mt-4 pointer-events-none">
         <span className="text-xs font-mono uppercase tracking-wider text-gray-400 dark:text-neutral-500 border border-gray-200 dark:border-neutral-800 px-2.5 py-1 group-hover:border-gray-300 dark:group-hover:border-neutral-700 transition-colors duration-300">
           {senior.prodi}
         </span>
