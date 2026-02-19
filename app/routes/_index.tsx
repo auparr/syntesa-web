@@ -50,6 +50,7 @@ export default function Index() {
       </div>
       <Seniors seniors={seniors} />
       <MarqueeDivider />
+      <TechSeparator delay={0.1} />
       <JoinCard />
     </div>
   );
